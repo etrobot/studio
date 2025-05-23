@@ -1,0 +1,52 @@
+{
+  "appTitleShort": "Stock Tracker",
+  "layout": {
+    "title": "Stock Action Tracker",
+    "description": "Track US stock corporate actions"
+  },
+  "stockTracker": {
+    "title": "Stock Action Tracker",
+    "filtersTitle": "Filters",
+    "searchLabel": "Search Ticker/Company",
+    "searchPlaceholder": "e.g., AAPL or Apple",
+    "actionTypeLabel": "Action Type",
+    "allActionTypes": "All Action Types",
+    "dateRangeLabel": "Effective Date Range",
+    "selectDateRange": "Select date range",
+    "clearFiltersButton": "Clear Filters",
+    "exportCSVButton": "Export CSV",
+    "corporateActionsTitle": "Corporate Actions",
+    "loadingSpinnerText": "Loading...",
+    "noActionsFound": "No actions found matching your criteria.",
+    "tableHeaderAnnounceDate": "Announce Date",
+    "tableHeaderTicker": "Ticker",
+    "tableHeaderCompanyName": "Company Name",
+    "tableHeaderActionType": "Action Type",
+    "tableHeaderDetails": "Details",
+    "tableHeaderBefore": "Before",
+    "tableHeaderAfter": "After",
+    "tableHeaderEffectiveDate": "Effective Date",
+    "notAvailable": "N/A",
+    "toastNoDataTitle": "No Data",
+    "toastNoDataDescription": "There is no data to export.",
+    "toastExportSuccessTitle": "Export Successful",
+    "toastExportSuccessDescription": "{filename} has been downloaded."
+  },
+  "actionTypes": {
+    "Dividend": "Dividend",
+    "Stock Split": "Stock Split",
+    "Ticker Change": "Ticker Change",
+    "Merger": "Merger",
+    "Other": "Other"
+  },
+  "themeToggle": {
+    "light": "Light",
+    "dark": "Dark",
+    "toggleTheme": "Toggle theme"
+  },
+  "languageSwitcher": {
+    "changeLanguage": "Change language",
+    "english": "English",
+    "chinese": "中文"
+  }
+}

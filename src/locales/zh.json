@@ -1,0 +1,52 @@
+{
+  "appTitleShort": "股票追踪",
+  "layout": {
+    "title": "股票动态追踪器",
+    "description": "追踪美国股票的公司行动"
+  },
+  "stockTracker": {
+    "title": "股票动态追踪器",
+    "filtersTitle": "筛选器",
+    "searchLabel": "搜索股票代码/公司",
+    "searchPlaceholder": "例如 AAPL 或 Apple",
+    "actionTypeLabel": "行动类型",
+    "allActionTypes": "所有行动类型",
+    "dateRangeLabel": "生效日期范围",
+    "selectDateRange": "选择日期范围",
+    "clearFiltersButton": "清除筛选",
+    "exportCSVButton": "导出 CSV",
+    "corporateActionsTitle": "公司行动",
+    "loadingSpinnerText": "加载中...",
+    "noActionsFound": "未找到符合条件的行动。",
+    "tableHeaderAnnounceDate": "公告日期",
+    "tableHeaderTicker": "股票代码",
+    "tableHeaderCompanyName": "公司名称",
+    "tableHeaderActionType": "行动类型",
+    "tableHeaderDetails": "详情",
+    "tableHeaderBefore": "之前",
+    "tableHeaderAfter": "之后",
+    "tableHeaderEffectiveDate": "生效日期",
+    "notAvailable": "不适用",
+    "toastNoDataTitle": "无数据",
+    "toastNoDataDescription": "没有可导出的数据。",
+    "toastExportSuccessTitle": "导出成功",
+    "toastExportSuccessDescription": "{filename} 已下载。"
+  },
+  "actionTypes": {
+    "Dividend": "股息",
+    "Stock Split": "股票分割",
+    "Ticker Change": "代码变更",
+    "Merger": "合并",
+    "Other": "其他"
+  },
+  "themeToggle": {
+    "light": "浅色",
+    "dark": "深色",
+    "toggleTheme": "切换主题"
+  },
+  "languageSwitcher": {
+    "changeLanguage": "切换语言",
+    "english": "English",
+    "chinese": "中文"
+  }
+}

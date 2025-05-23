@@ -48,6 +48,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import type { Dictionary } from '@/lib/dictionaries'; // Import Dictionary type
 
 const getActionTypeIcon = (actionType: StockActionType) => {
   switch (actionType) {
@@ -66,9 +67,14 @@ const getActionTypeIcon = (actionType: StockActionType) => {
   }
 };
 
-const ALL_TYPES_VALUE = "all-types"; // Define a constant for the special value
+const ALL_TYPES_VALUE = "all-types";
 
-export default function StockActionTracker() {
+interface StockActionTrackerProps {
+  dictionary: Dictionary['stockTracker'];
+  actionTypeDictionary: Dictionary['actionTypes'];
+}
+
+export default function StockActionTracker({ dictionary, actionTypeDictionary }: StockActionTrackerProps) {
   const [actions] = useState<StockAction[]>(mockStockActions);
   const [filteredActions, setFilteredActions] = useState<StockAction[]>(actions);
   const [searchTerm, setSearchTerm] = useState('');
@@ -104,14 +110,12 @@ export default function StockActionTracker() {
     if (dateRange?.to) {
       currentActions = currentActions.filter((action) => {
         const effectiveDate = new Date(action.effectiveDate);
-        // Adjust 'to' date to include the whole day
         const toDate = new Date(dateRange.to as Date);
         toDate.setHours(23, 59, 59, 999);
         return effectiveDate <= toDate;
       });
     }
     
-    // Simulate loading delay
     setTimeout(() => {
       setFilteredActions(currentActions);
       setIsLoading(false);
@@ -122,18 +126,18 @@ export default function StockActionTracker() {
   const handleExportCSV = () => {
     if (filteredActions.length === 0) {
       toast({
-        title: "No Data",
-        description: "There is no data to export.",
+        title: dictionary.toastNoDataTitle,
+        description: dictionary.toastNoDataDescription,
         variant: "destructive",
       });
       return;
     }
-    const dataToExport = filteredActions.map(({ id, ...rest }) => rest); // Exclude ID from export
-    const filename = `stock_actions_${format(new Date(), 'yyyy-MM-dd')}.csv`;
-    exportToCSV(dataToExport, filename);
+    const dataToExport = filteredActions.map(({ id, ...rest }) => rest); 
+    const filenameBase = `stock_actions_${format(new Date(), 'yyyy-MM-dd')}.csv`;
+    exportToCSV(dataToExport, filenameBase);
     toast({
-      title: "Export Successful",
-      description: `${filename} has been downloaded.`,
+      title: dictionary.toastExportSuccessTitle,
+      description: dictionary.toastExportSuccessDescription.replace('{filename}', filenameBase),
     });
   };
 
@@ -144,10 +148,10 @@ export default function StockActionTracker() {
   };
   
   const displayDateRange = useMemo(() => {
-    if (!dateRange?.from) return "Select date range";
+    if (!dateRange?.from) return dictionary.selectDateRange;
     if (!dateRange.to) return format(dateRange.from, "LLL dd, y");
     return `${format(dateRange.from, "LLL dd, y")} - ${format(dateRange.to, "LLL dd, y")}`;
-  }, [dateRange]);
+  }, [dateRange, dictionary.selectDateRange]);
 
   const handleActionTypeChange = (value: string) => {
     if (value === ALL_TYPES_VALUE) {
@@ -161,7 +165,7 @@ export default function StockActionTracker() {
     <div className="space-y-8">
       <Card className="shadow-xl">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Stock Action Tracker</CardTitle>
+          <CardTitle className="text-3xl font-bold tracking-tight text-primary">{dictionary.title}</CardTitle>
         </CardHeader>
       </Card>
 
@@ -169,18 +173,18 @@ export default function StockActionTracker() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
             <FilterIcon className="h-6 w-6 text-primary" />
-            Filters
+            {dictionary.filtersTitle}
           </CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-1">
-            <label htmlFor="search-ticker" className="text-sm font-medium">Search Ticker/Company</label>
+            <label htmlFor="search-ticker" className="text-sm font-medium">{dictionary.searchLabel}</label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="search-ticker"
                 type="text"
-                placeholder="e.g., AAPL or Apple"
+                placeholder={dictionary.searchPlaceholder}
                 value={searchTerm}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -189,19 +193,19 @@ export default function StockActionTracker() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="action-type" className="text-sm font-medium">Action Type</label>
+            <label htmlFor="action-type" className="text-sm font-medium">{dictionary.actionTypeLabel}</label>
             <Select
               value={selectedActionType === '' ? ALL_TYPES_VALUE : selectedActionType}
               onValueChange={handleActionTypeChange}
             >
               <SelectTrigger id="action-type" className="w-full">
-                <SelectValue placeholder="All Action Types" />
+                <SelectValue placeholder={dictionary.allActionTypes} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={ALL_TYPES_VALUE}>All Action Types</SelectItem>
+                <SelectItem value={ALL_TYPES_VALUE}>{dictionary.allActionTypes}</SelectItem>
                 {ALL_ACTION_TYPES.map((type) => (
                   <SelectItem key={type} value={type}>
-                    {type}
+                    {actionTypeDictionary[type as StockActionType]}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -209,7 +213,7 @@ export default function StockActionTracker() {
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="effective-date" className="text-sm font-medium">Effective Date Range</label>
+            <label htmlFor="effective-date" className="text-sm font-medium">{dictionary.dateRangeLabel}</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -236,10 +240,10 @@ export default function StockActionTracker() {
           
           <div className="flex items-end space-x-2">
             <Button onClick={handleClearFilters} variant="outline" className="w-full md:w-auto">
-              <RotateCcw className="mr-2 h-4 w-4" /> Clear Filters
+              <RotateCcw className="mr-2 h-4 w-4" /> {dictionary.clearFiltersButton}
             </Button>
             <Button onClick={handleExportCSV} className="w-full md:w-auto bg-primary hover:bg-primary/90">
-              <Download className="mr-2 h-4 w-4" /> Export CSV
+              <Download className="mr-2 h-4 w-4" /> {dictionary.exportCSVButton}
             </Button>
           </div>
         </CardContent>
@@ -247,26 +251,26 @@ export default function StockActionTracker() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="text-xl">Corporate Actions</CardTitle>
+          <CardTitle className="text-xl">{dictionary.corporateActionsTitle}</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" aria-label={dictionary.loadingSpinnerText}></div>
             </div>
           ) : filteredActions.length > 0 ? (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Announce Date</TableHead>
-                    <TableHead>Ticker</TableHead>
-                    <TableHead>Company Name</TableHead>
-                    <TableHead>Action Type</TableHead>
-                    <TableHead>Details</TableHead>
-                    <TableHead>Before</TableHead>
-                    <TableHead>After</TableHead>
-                    <TableHead>Effective Date</TableHead>
+                    <TableHead>{dictionary.tableHeaderAnnounceDate}</TableHead>
+                    <TableHead>{dictionary.tableHeaderTicker}</TableHead>
+                    <TableHead>{dictionary.tableHeaderCompanyName}</TableHead>
+                    <TableHead>{dictionary.tableHeaderActionType}</TableHead>
+                    <TableHead>{dictionary.tableHeaderDetails}</TableHead>
+                    <TableHead>{dictionary.tableHeaderBefore}</TableHead>
+                    <TableHead>{dictionary.tableHeaderAfter}</TableHead>
+                    <TableHead>{dictionary.tableHeaderEffectiveDate}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -277,11 +281,11 @@ export default function StockActionTracker() {
                       <TableCell>{action.companyName}</TableCell>
                       <TableCell className="flex items-center gap-2">
                         {getActionTypeIcon(action.actionType)}
-                        {action.actionType}
+                        {actionTypeDictionary[action.actionType as StockActionType]}
                       </TableCell>
                       <TableCell>{action.actionDetails}</TableCell>
-                      <TableCell>{action.valueBefore || 'N/A'}</TableCell>
-                      <TableCell>{action.valueAfter || 'N/A'}</TableCell>
+                      <TableCell>{action.valueBefore || dictionary.notAvailable}</TableCell>
+                      <TableCell>{action.valueAfter || dictionary.notAvailable}</TableCell>
                       <TableCell>{action.effectiveDate}</TableCell>
                     </TableRow>
                   ))}
@@ -291,7 +295,7 @@ export default function StockActionTracker() {
           ) : (
             <div className="text-center py-10 text-muted-foreground">
               <Info className="mx-auto h-12 w-12 mb-4" />
-              <p className="text-lg">No actions found matching your criteria.</p>
+              <p className="text-lg">{dictionary.noActionsFound}</p>
             </div>
           )}
         </CardContent>
