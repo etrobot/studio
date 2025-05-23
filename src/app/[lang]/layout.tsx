@@ -1,5 +1,6 @@
 import type { Metadata, ResolvingMetadata } from 'next';
-import { Geist_Sans as GeistSans, Geist_Mono as GeistMono } from 'next/font/google'; // Use Geist_Sans for non-variable
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import '../globals.css'; // Adjusted path
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from '@/components/theme-provider';
@@ -8,16 +9,6 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { getDictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/i18n-config';
 import { i18n } from '@/i18n-config';
-
-const geistSans = GeistSans({
-  subsets: ['latin'],
-  variable: '--font-geist-sans', // if you intend to use it as a CSS variable
-});
-
-const geistMono = GeistMono({
-  subsets: ['latin'],
-  variable: '--font-geist-mono', // if you intend to use it as a CSS variable
-});
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -47,8 +38,8 @@ export default async function RootLayout({
 }) {
   const dict = await getDictionary(params.lang);
   return (
-    <html lang={params.lang} suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+    <html lang={params.lang} className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
