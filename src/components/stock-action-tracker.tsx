@@ -12,7 +12,6 @@ import {
   HelpCircle,
   Download,
   Search,
-  Filter as FilterIcon,
   CalendarDays,
   RotateCcw,
   Info,
@@ -45,7 +44,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card'; // Removed CardHeader, CardTitle from imports
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
@@ -174,13 +173,8 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
   return (
     <div className="space-y-8">
       <Card className="shadow-lg">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-xl">
-            <FilterIcon className="h-6 w-6 text-primary" />
-            {dictionary.filtersTitle}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {/* CardHeader and CardTitle removed */}
+        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 pt-6"> {/* Added pt-6 */}
           <div className="space-y-1">
             <label htmlFor="search-ticker" className="text-sm font-medium">{dictionary.searchLabel}</label>
             <div className="relative">
@@ -311,3 +305,5 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     </div>
   );
 }
+
+    
