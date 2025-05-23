@@ -1,3 +1,4 @@
+
 {
   "appTitleShort": "Stock Tracker",
   "layout": {
@@ -26,7 +27,7 @@
     "tableHeaderBefore": "Before",
     "tableHeaderAfter": "After",
     "tableHeaderEffectiveDate": "Effective Date",
-    "notAvailable": "N/A",
+    "notAvailable": "- -",
     "toastNoDataTitle": "No Data",
     "toastNoDataDescription": "There is no data to export.",
     "toastExportSuccessTitle": "Export Successful",

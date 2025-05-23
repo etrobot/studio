@@ -163,11 +163,13 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
 
   return (
     <div className="space-y-8">
+      {/* Title Card Removed based on user request
       <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold tracking-tight text-primary">{dictionary.title}</CardTitle>
         </CardHeader>
       </Card>
+      */}
 
       <Card className="shadow-lg">
         <CardHeader>
@@ -303,3 +305,4 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     </div>
   );
 }
+

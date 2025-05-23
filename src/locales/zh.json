@@ -1,3 +1,4 @@
+
 {
   "appTitleShort": "股票追踪",
   "layout": {
@@ -26,7 +27,7 @@
     "tableHeaderBefore": "之前",
     "tableHeaderAfter": "之后",
     "tableHeaderEffectiveDate": "生效日期",
-    "notAvailable": "不适用",
+    "notAvailable": "- -",
     "toastNoDataTitle": "无数据",
     "toastNoDataDescription": "没有可导出的数据。",
     "toastExportSuccessTitle": "导出成功",
