@@ -94,7 +94,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
 
   useEffect(() => {
     setIsLoading(true);
-    let currentActions = [...actions]; // 'actions' is already sorted
+    let currentActions = [...actions]; 
 
     if (searchTerm) {
       currentActions = currentActions.filter(
@@ -120,11 +120,12 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
       currentActions = currentActions.filter((action) => {
         const effectiveDate = new Date(action.effectiveDate);
         const toDate = new Date(dateRange.to as Date);
-        toDate.setHours(23, 59, 59, 999);
+        toDate.setHours(23, 59, 59, 999); // Include the whole 'to' day
         return effectiveDate <= toDate;
       });
     }
     
+    // Simulate loading delay
     setTimeout(() => {
       setFilteredActions(currentActions);
       setIsLoading(false);
@@ -253,10 +254,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
       </Card>
 
       <Card className="shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl">{dictionary.corporateActionsTitle}</CardTitle>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6"> {/* Added pt-6 to CardContent as CardHeader was removed */}
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" aria-label={dictionary.loadingSpinnerText}></div>
@@ -267,9 +265,9 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                 <TableHeader>
                   <TableRow>
                     <TableHead>{dictionary.tableHeaderAnnounceDate}</TableHead>
+                    <TableHead>{dictionary.tableHeaderActionType}</TableHead>
                     <TableHead>{dictionary.tableHeaderTicker}</TableHead>
                     <TableHead>{dictionary.tableHeaderCompanyName}</TableHead>
-                    <TableHead>{dictionary.tableHeaderActionType}</TableHead>
                     <TableHead>{dictionary.tableHeaderDetails}</TableHead>
                     <TableHead>{dictionary.tableHeaderBefore}</TableHead>
                     <TableHead>{dictionary.tableHeaderAfter}</TableHead>
@@ -285,14 +283,14 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                           <Badge variant="default" className="ml-1 bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
                         )}
                       </TableCell>
-                      <TableCell className="font-medium text-primary">
-                        {action.ticker}
-                      </TableCell>
-                      <TableCell>{action.companyName}</TableCell>
                       <TableCell className="flex items-center gap-2">
                         {getActionTypeIcon(action.actionType)}
                         {actionTypeDictionary[action.actionType as StockActionType]}
                       </TableCell>
+                      <TableCell className="font-medium text-primary">
+                        {action.ticker}
+                      </TableCell>
+                      <TableCell>{action.companyName}</TableCell>
                       <TableCell>{action.actionDetails}</TableCell>
                       <TableCell>{action.valueBefore || dictionary.notAvailable}</TableCell>
                       <TableCell>{action.valueAfter || dictionary.notAvailable}</TableCell>
@@ -313,4 +311,3 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     </div>
   );
 }
-

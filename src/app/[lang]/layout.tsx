@@ -1,3 +1,4 @@
+
 import type { Metadata, ResolvingMetadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
@@ -47,7 +48,7 @@ export default async function RootLayout({
           storageKey="app-theme"
         >
           <div className="min-h-screen flex flex-col">
-            <header className="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <header className="py-4 px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl font-semibold sm:text-2xl">{dict.appTitleShort}</h1>
                 <div className="flex items-center space-x-2">
@@ -56,7 +57,7 @@ export default async function RootLayout({
                 </div>
               </div>
             </header>
-            <main className="flex-grow container mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <main className="flex-grow py-4 px-4 sm:px-6 lg:px-8">
               {children}
             </main>
             <Toaster />
