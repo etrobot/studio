@@ -1,12 +1,12 @@
 
 {
-  "appTitleShort": "股票追踪",
+  "appTitleShort": "美股行动查询",
   "layout": {
-    "title": "股票动态追踪器",
+    "title": "美股公司行动查询",
     "description": "追踪美国股票的公司行动"
   },
   "stockTracker": {
-    "title": "股票动态追踪器",
+    "title": "美股公司行动查询",
     "filtersTitle": "筛选器",
     "searchLabel": "搜索股票代码/公司",
     "searchPlaceholder": "例如 AAPL 或 Apple",
@@ -52,3 +52,4 @@
     "chinese": "中文"
   }
 }
+

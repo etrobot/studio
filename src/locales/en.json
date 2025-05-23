@@ -1,12 +1,12 @@
 
 {
-  "appTitleShort": "Stock Tracker",
+  "appTitleShort": "US Corp Actions",
   "layout": {
-    "title": "Stock Action Tracker",
+    "title": "US Corporate Actions Lookup",
     "description": "Track US stock corporate actions"
   },
   "stockTracker": {
-    "title": "Stock Action Tracker",
+    "title": "US Corporate Actions Lookup",
     "filtersTitle": "Filters",
     "searchLabel": "Search Ticker/Company",
     "searchPlaceholder": "e.g., AAPL or Apple",
@@ -52,3 +52,4 @@
     "chinese": "中文"
   }
 }
+
