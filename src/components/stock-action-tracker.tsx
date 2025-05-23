@@ -46,7 +46,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge'; // Added Badge import
+import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { Dictionary } from '@/lib/dictionaries';
@@ -279,12 +279,14 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                 <TableBody>
                   {filteredActions.map((action) => (
                     <TableRow key={action.id}>
-                      <TableCell>{action.announcementDate}</TableCell>
+                      <TableCell>
+                        {action.announcementDate}
+                        {newestActionIds.includes(action.id) && (
+                          <Badge variant="default" className="ml-1 bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
+                        )}
+                      </TableCell>
                       <TableCell className="font-medium text-primary">
                         {action.ticker}
-                        {newestActionIds.includes(action.id) && (
-                          <Badge variant="default" className="ml-2">{dictionary.newTag}</Badge>
-                        )}
                       </TableCell>
                       <TableCell>{action.companyName}</TableCell>
                       <TableCell className="flex items-center gap-2">
@@ -311,3 +313,4 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     </div>
   );
 }
+
