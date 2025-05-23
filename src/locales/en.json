@@ -31,7 +31,8 @@
     "toastNoDataTitle": "No Data",
     "toastNoDataDescription": "There is no data to export.",
     "toastExportSuccessTitle": "Export Successful",
-    "toastExportSuccessDescription": "{filename} has been downloaded."
+    "toastExportSuccessDescription": "{filename} has been downloaded.",
+    "newTag": "New"
   },
   "actionTypes": {
     "Dividend": "Dividend",

@@ -31,7 +31,8 @@
     "toastNoDataTitle": "无数据",
     "toastNoDataDescription": "没有可导出的数据。",
     "toastExportSuccessTitle": "导出成功",
-    "toastExportSuccessDescription": "{filename} 已下载。"
+    "toastExportSuccessDescription": "{filename} 已下载。",
+    "newTag": "新"
   },
   "actionTypes": {
     "Dividend": "股息",

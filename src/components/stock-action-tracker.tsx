@@ -46,9 +46,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge'; // Added Badge import
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
-import type { Dictionary } from '@/lib/dictionaries'; // Import Dictionary type
+import type { Dictionary } from '@/lib/dictionaries';
 
 const getActionTypeIcon = (actionType: StockActionType) => {
   switch (actionType) {
@@ -69,14 +70,22 @@ const getActionTypeIcon = (actionType: StockActionType) => {
 
 const ALL_TYPES_VALUE = "all-types";
 
+// Sort initial actions by announcementDate descending
+const sortedMockActions = [...mockStockActions].sort(
+  (a, b) => new Date(b.announcementDate).getTime() - new Date(a.announcementDate).getTime()
+);
+
+// Get IDs of the newest 3 actions
+const newestActionIds = sortedMockActions.slice(0, 3).map(action => action.id);
+
 interface StockActionTrackerProps {
   dictionary: Dictionary['stockTracker'];
   actionTypeDictionary: Dictionary['actionTypes'];
 }
 
 export default function StockActionTracker({ dictionary, actionTypeDictionary }: StockActionTrackerProps) {
-  const [actions] = useState<StockAction[]>(mockStockActions);
-  const [filteredActions, setFilteredActions] = useState<StockAction[]>(actions);
+  const [actions] = useState<StockAction[]>(sortedMockActions);
+  const [filteredActions, setFilteredActions] = useState<StockAction[]>(sortedMockActions);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedActionType, setSelectedActionType] = useState<StockActionType | ''>('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
@@ -85,7 +94,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
 
   useEffect(() => {
     setIsLoading(true);
-    let currentActions = [...actions];
+    let currentActions = [...actions]; // 'actions' is already sorted
 
     if (searchTerm) {
       currentActions = currentActions.filter(
@@ -163,14 +172,6 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
 
   return (
     <div className="space-y-8">
-      {/* Title Card Removed based on user request
-      <Card className="shadow-xl">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">{dictionary.title}</CardTitle>
-        </CardHeader>
-      </Card>
-      */}
-
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
@@ -279,7 +280,12 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                   {filteredActions.map((action) => (
                     <TableRow key={action.id}>
                       <TableCell>{action.announcementDate}</TableCell>
-                      <TableCell className="font-medium text-primary">{action.ticker}</TableCell>
+                      <TableCell className="font-medium text-primary">
+                        {action.ticker}
+                        {newestActionIds.includes(action.id) && (
+                          <Badge variant="default" className="ml-2">{dictionary.newTag}</Badge>
+                        )}
+                      </TableCell>
                       <TableCell>{action.companyName}</TableCell>
                       <TableCell className="flex items-center gap-2">
                         {getActionTypeIcon(action.actionType)}
@@ -305,4 +311,3 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     </div>
   );
 }
-
