@@ -32,7 +32,10 @@
     "toastNoDataDescription": "没有可导出的数据。",
     "toastExportSuccessTitle": "导出成功",
     "toastExportSuccessDescription": "{filename} 已下载。",
-    "newTag": "新"
+    "newTag": "新",
+    "previousPage": "上一页",
+    "nextPage": "下一页",
+    "pageIndicator": "第 {currentPage} 页 / 共 {totalPages} 页"
   },
   "actionTypes": {
     "Dividend": "股息",
@@ -52,4 +55,3 @@
     "chinese": "中文"
   }
 }
-

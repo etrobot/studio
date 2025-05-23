@@ -44,7 +44,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Card, CardContent } from '@/components/ui/card'; // Removed CardHeader, CardTitle from imports
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
@@ -67,7 +67,7 @@ const getActionTypeIcon = (actionType: StockActionType) => {
   }
 };
 
-const ALL_TYPES_VALUE = "all-types";
+const ALL_TYPES_VALUE = "all"; // Changed from "all-types"
 
 // Sort initial actions by announcementDate descending
 const sortedMockActions = [...mockStockActions].sort(
@@ -76,6 +76,8 @@ const sortedMockActions = [...mockStockActions].sort(
 
 // Get IDs of the newest 3 actions
 const newestActionIds = sortedMockActions.slice(0, 3).map(action => action.id);
+
+const ITEMS_PER_PAGE = 5;
 
 interface StockActionTrackerProps {
   dictionary: Dictionary['stockTracker'];
@@ -89,11 +91,12 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
   const [selectedActionType, setSelectedActionType] = useState<StockActionType | ''>('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const { toast } = useToast();
 
   useEffect(() => {
     setIsLoading(true);
-    let currentActions = [...actions]; 
+    let currentActions = [...actions];
 
     if (searchTerm) {
       currentActions = currentActions.filter(
@@ -127,10 +130,26 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     // Simulate loading delay
     setTimeout(() => {
       setFilteredActions(currentActions);
+      setCurrentPage(1); // Reset to first page when filters change
       setIsLoading(false);
     }, 300);
 
   }, [actions, searchTerm, selectedActionType, dateRange]);
+
+  const totalPages = Math.ceil(filteredActions.length / ITEMS_PER_PAGE);
+  const paginatedActions = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredActions.slice(startIndex, endIndex);
+  }, [filteredActions, currentPage]);
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
 
   const handleExportCSV = () => {
     if (filteredActions.length === 0) {
@@ -154,6 +173,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     setSearchTerm('');
     setSelectedActionType('');
     setDateRange(undefined);
+    // useEffect will handle resetting page and actions
   };
   
   const displayDateRange = useMemo(() => {
@@ -173,8 +193,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
   return (
     <div className="space-y-8">
       <Card className="shadow-lg">
-        {/* CardHeader and CardTitle removed */}
-        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 pt-6"> {/* Added pt-6 */}
+        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 pt-6">
           <div className="space-y-1">
             <label htmlFor="search-ticker" className="text-sm font-medium">{dictionary.searchLabel}</label>
             <div className="relative">
@@ -248,52 +267,77 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
       </Card>
 
       <Card className="shadow-lg">
-        <CardContent className="pt-6"> {/* Added pt-6 to CardContent as CardHeader was removed */}
+        <CardContent className="pt-6">
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" aria-label={dictionary.loadingSpinnerText}></div>
             </div>
-          ) : filteredActions.length > 0 ? (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>{dictionary.tableHeaderAnnounceDate}</TableHead>
-                    <TableHead>{dictionary.tableHeaderActionType}</TableHead>
-                    <TableHead>{dictionary.tableHeaderTicker}</TableHead>
-                    <TableHead>{dictionary.tableHeaderCompanyName}</TableHead>
-                    <TableHead>{dictionary.tableHeaderDetails}</TableHead>
-                    <TableHead>{dictionary.tableHeaderBefore}</TableHead>
-                    <TableHead>{dictionary.tableHeaderAfter}</TableHead>
-                    <TableHead>{dictionary.tableHeaderEffectiveDate}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredActions.map((action) => (
-                    <TableRow key={action.id}>
-                      <TableCell>
-                        {action.announcementDate}
-                        {newestActionIds.includes(action.id) && (
-                          <Badge variant="default" className="ml-1 bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className="flex items-center gap-2">
-                        {getActionTypeIcon(action.actionType)}
-                        {actionTypeDictionary[action.actionType as StockActionType]}
-                      </TableCell>
-                      <TableCell className="font-medium text-primary">
-                        {action.ticker}
-                      </TableCell>
-                      <TableCell>{action.companyName}</TableCell>
-                      <TableCell>{action.actionDetails}</TableCell>
-                      <TableCell>{action.valueBefore || dictionary.notAvailable}</TableCell>
-                      <TableCell>{action.valueAfter || dictionary.notAvailable}</TableCell>
-                      <TableCell>{action.effectiveDate}</TableCell>
+          ) : paginatedActions.length > 0 ? (
+            <>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{dictionary.tableHeaderAnnounceDate}</TableHead>
+                      <TableHead>{dictionary.tableHeaderActionType}</TableHead>
+                      <TableHead>{dictionary.tableHeaderTicker}</TableHead>
+                      <TableHead>{dictionary.tableHeaderCompanyName}</TableHead>
+                      <TableHead>{dictionary.tableHeaderDetails}</TableHead>
+                      <TableHead>{dictionary.tableHeaderBefore}</TableHead>
+                      <TableHead>{dictionary.tableHeaderAfter}</TableHead>
+                      <TableHead>{dictionary.tableHeaderEffectiveDate}</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                  </TableHeader>
+                  <TableBody>
+                    {paginatedActions.map((action) => (
+                      <TableRow key={action.id}>
+                        <TableCell>
+                          {action.announcementDate}
+                          {newestActionIds.includes(action.id) && (
+                            <Badge variant="default" className="ml-1 bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
+                          )}
+                        </TableCell>
+                        <TableCell className="flex items-center gap-2">
+                          {getActionTypeIcon(action.actionType)}
+                          {actionTypeDictionary[action.actionType as StockActionType]}
+                        </TableCell>
+                        <TableCell className="font-medium text-primary">
+                          {action.ticker}
+                        </TableCell>
+                        <TableCell>{action.companyName}</TableCell>
+                        <TableCell>{action.actionDetails}</TableCell>
+                        <TableCell>{action.valueBefore || dictionary.notAvailable}</TableCell>
+                        <TableCell>{action.valueAfter || dictionary.notAvailable}</TableCell>
+                        <TableCell>{action.effectiveDate}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between mt-6 pt-4 border-t">
+                  <Button
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    variant="outline"
+                  >
+                    {dictionary.previousPage}
+                  </Button>
+                  <span className="text-sm text-muted-foreground">
+                    {dictionary.pageIndicator
+                      .replace('{currentPage}', currentPage.toString())
+                      .replace('{totalPages}', totalPages.toString())}
+                  </span>
+                  <Button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    variant="outline"
+                  >
+                    {dictionary.nextPage}
+                  </Button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="text-center py-10 text-muted-foreground">
               <Info className="mx-auto h-12 w-12 mb-4" />
@@ -305,5 +349,3 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     </div>
   );
 }
-
-    

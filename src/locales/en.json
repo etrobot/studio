@@ -32,7 +32,10 @@
     "toastNoDataDescription": "There is no data to export.",
     "toastExportSuccessTitle": "Export Successful",
     "toastExportSuccessDescription": "{filename} has been downloaded.",
-    "newTag": "New"
+    "newTag": "New",
+    "previousPage": "Previous",
+    "nextPage": "Next",
+    "pageIndicator": "Page {currentPage} of {totalPages}"
   },
   "actionTypes": {
     "Dividend": "Dividend",
@@ -52,4 +55,3 @@
     "chinese": "中文"
   }
 }
-
