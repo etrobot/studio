@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { ChangeEvent } from 'react';
@@ -64,6 +65,8 @@ const getActionTypeIcon = (actionType: StockActionType) => {
       return <Info className="h-5 w-5 text-muted-foreground" />;
   }
 };
+
+const ALL_TYPES_VALUE = "all-types"; // Define a constant for the special value
 
 export default function StockActionTracker() {
   const [actions] = useState<StockAction[]>(mockStockActions);
@@ -146,6 +149,14 @@ export default function StockActionTracker() {
     return `${format(dateRange.from, "LLL dd, y")} - ${format(dateRange.to, "LLL dd, y")}`;
   }, [dateRange]);
 
+  const handleActionTypeChange = (value: string) => {
+    if (value === ALL_TYPES_VALUE) {
+      setSelectedActionType('');
+    } else {
+      setSelectedActionType(value as StockActionType);
+    }
+  };
+
   return (
     <div className="space-y-8">
       <Card className="shadow-xl">
@@ -180,14 +191,14 @@ export default function StockActionTracker() {
           <div className="space-y-1">
             <label htmlFor="action-type" className="text-sm font-medium">Action Type</label>
             <Select
-              value={selectedActionType}
-              onValueChange={(value: StockActionType | '') => setSelectedActionType(value)}
+              value={selectedActionType === '' ? ALL_TYPES_VALUE : selectedActionType}
+              onValueChange={handleActionTypeChange}
             >
               <SelectTrigger id="action-type" className="w-full">
                 <SelectValue placeholder="All Action Types" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Action Types</SelectItem>
+                <SelectItem value={ALL_TYPES_VALUE}>All Action Types</SelectItem>
                 {ALL_ACTION_TYPES.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type}
