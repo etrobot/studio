@@ -312,7 +312,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                             )}
                           </div>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="whitespace-nowrap">
                           <div className="flex items-center gap-2">
                             {getActionTypeIcon(action.actionType)}
                             {actionTypeDictionary[action.actionType as StockActionType]}
