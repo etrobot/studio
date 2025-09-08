@@ -57,17 +57,18 @@ import { useToast } from '@/hooks/use-toast';
 import type { Dictionary } from '@/lib/dictionaries';
 
 const getActionTypeIcon = (actionType: StockActionType) => {
+  const iconColor = "text-[hsl(var(--chart-2))]";
   switch (actionType) {
     case 'Dividend':
-      return <Landmark className="h-5 w-5 text-accent" />;
+      return <Landmark className={`h-5 w-5 ${iconColor}`} />;
     case 'Stock Split':
-      return <Scissors className="h-5 w-5 text-accent" />;
+      return <Scissors className={`h-5 w-5 ${iconColor}`} />;
     case 'Ticker Change':
-      return <ReplaceAll className="h-5 w-5 text-accent" />;
+      return <ReplaceAll className={`h-5 w-5 ${iconColor}`} />;
     case 'Merger':
-      return <Users2 className="h-5 w-5 text-accent" />;
+      return <Users2 className={`h-5 w-5 ${iconColor}`} />;
     case 'Other':
-      return <HelpCircle className="h-5 w-5 text-accent" />;
+      return <HelpCircle className={`h-5 w-5 ${iconColor}`} />;
     default:
       return <Info className="h-5 w-5 text-muted-foreground" />;
   }
