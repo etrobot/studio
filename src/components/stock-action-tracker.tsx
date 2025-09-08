@@ -297,7 +297,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                   <TableBody>
                     {paginatedActions.map((action) => (
                       <TableRow key={action.id}>
-                        <TableCell>
+                        <TableCell className="whitespace-nowrap">
                           <div className="flex items-center">
                             <span>{action.announcementDate}</span>
                             {newestActionIds.includes(action.id) && (
@@ -312,18 +312,20 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                             )}
                           </div>
                         </TableCell>
-                        <TableCell className="flex items-center gap-2">
-                          {getActionTypeIcon(action.actionType)}
-                          {actionTypeDictionary[action.actionType as StockActionType]}
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            {getActionTypeIcon(action.actionType)}
+                            {actionTypeDictionary[action.actionType as StockActionType]}
+                          </div>
                         </TableCell>
                         <TableCell className="font-medium text-primary">
                           {action.ticker}
                         </TableCell>
                         <TableCell>{action.companyName}</TableCell>
                         <TableCell>{action.actionDetails}</TableCell>
-                        <TableCell>{action.valueBefore || dictionary.notAvailable}</TableCell>
-                        <TableCell>{action.valueAfter || dictionary.notAvailable}</TableCell>
-                        <TableCell>{action.effectiveDate}</TableCell>
+                        <TableCell className="whitespace-nowrap">{action.valueBefore || dictionary.notAvailable}</TableCell>
+                        <TableCell className="whitespace-nowrap">{action.valueAfter || dictionary.notAvailable}</TableCell>
+                        <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
