@@ -44,6 +44,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
@@ -67,7 +73,7 @@ const getActionTypeIcon = (actionType: StockActionType) => {
   }
 };
 
-const ALL_TYPES_VALUE = "all"; // Changed from "all-types"
+const ALL_TYPES_VALUE = "all";
 
 // Sort initial actions by announcementDate descending
 const sortedMockActions = [...mockStockActions].sort(
@@ -273,29 +279,38 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" aria-label={dictionary.loadingSpinnerText}></div>
             </div>
           ) : paginatedActions.length > 0 ? (
-            <>
+            <TooltipProvider>
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{dictionary.tableHeaderAnnounceDate}</TableHead>
-                      <TableHead>{dictionary.tableHeaderActionType}</TableHead>
-                      <TableHead>{dictionary.tableHeaderTicker}</TableHead>
-                      <TableHead>{dictionary.tableHeaderCompanyName}</TableHead>
-                      <TableHead>{dictionary.tableHeaderDetails}</TableHead>
-                      <TableHead>{dictionary.tableHeaderBefore}</TableHead>
-                      <TableHead>{dictionary.tableHeaderAfter}</TableHead>
-                      <TableHead>{dictionary.tableHeaderEffectiveDate}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAnnounceDate}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderActionType}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderTicker}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderCompanyName}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderDetails}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderBefore}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAfter}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {paginatedActions.map((action) => (
                       <TableRow key={action.id}>
                         <TableCell>
-                          {action.announcementDate}
-                          {newestActionIds.includes(action.id) && (
-                            <Badge variant="default" className="ml-1 bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
-                          )}
+                          <div className="flex items-center">
+                            <span>{action.announcementDate}</span>
+                            {newestActionIds.includes(action.id) && (
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Badge variant="default" className="ml-2 cursor-default bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>{dictionary.newTagTooltip}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            )}
+                          </div>
                         </TableCell>
                         <TableCell className="flex items-center gap-2">
                           {getActionTypeIcon(action.actionType)}
@@ -337,7 +352,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                   </Button>
                 </div>
               )}
-            </>
+            </TooltipProvider>
           ) : (
             <div className="text-center py-10 text-muted-foreground">
               <Info className="mx-auto h-12 w-12 mb-4" />

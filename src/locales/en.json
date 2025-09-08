@@ -33,6 +33,7 @@
     "toastExportSuccessTitle": "Export Successful",
     "toastExportSuccessDescription": "{filename} has been downloaded.",
     "newTag": "New",
+    "newTagTooltip": "Newly added future corporate actions",
     "previousPage": "Previous",
     "nextPage": "Next",
     "pageIndicator": "Page {currentPage} of {totalPages}"
