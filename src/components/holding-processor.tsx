@@ -17,6 +17,7 @@ import {
   RotateCcw,
   Info,
   ChevronRight,
+  CheckCircle2,
 } from 'lucide-react';
 
 import { mockStockActions } from '@/lib/mock-data';
@@ -84,6 +85,19 @@ const ALL_TYPES_VALUE = "all";
 const sortedMockActions = [...mockStockActions].sort(
   (a, b) => new Date(b.announcementDate).getTime() - new Date(a.announcementDate).getTime()
 );
+
+const mockCompletedActions: (StockAction & { processor: string; processedDate: string })[] = [
+    {
+        ...sortedMockActions[4], // Meta Ticker Change
+        processor: 'Admin A',
+        processedDate: '2024-05-02'
+    },
+    {
+        ...sortedMockActions[5], // Amazon Stock Split
+        processor: 'Admin B',
+        processedDate: '2024-03-21'
+    }
+];
 
 // Get IDs of the newest 3 actions
 const newestActionIds = sortedMockActions.slice(0, 3).map(action => action.id);
@@ -390,10 +404,46 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
         <TabsContent value="completed">
            <Card className="shadow-lg mt-4">
               <CardContent className="pt-6">
-                 <div className="text-center py-10 text-muted-foreground">
-                    <Info className="mx-auto h-12 w-12 mb-4" />
-                    <p className="text-lg">{holdingDictionary.noCompletedActions}</p>
-                 </div>
+                {mockCompletedActions.length > 0 ? (
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAnnounceDate}</TableHead>
+                                    <TableHead className="whitespace-nowrap">{dictionary.tableHeaderActionType}</TableHead>
+                                    <TableHead className="whitespace-nowrap">{dictionary.tableHeaderTicker}</TableHead>
+                                    <TableHead className="whitespace-nowrap">{dictionary.tableHeaderCompanyName}</TableHead>
+                                    <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
+                                    <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
+                                    <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessedDate}</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {mockCompletedActions.map((action) => (
+                                    <TableRow key={action.id}>
+                                        <TableCell className="whitespace-nowrap">{action.announcementDate}</TableCell>
+                                        <TableCell className="whitespace-nowrap">
+                                            <div className="flex items-center gap-2">
+                                                {getActionTypeIcon(action.actionType)}
+                                                {actionTypeDictionary[action.actionType as StockActionType]}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="font-medium text-primary">{action.ticker}</TableCell>
+                                        <TableCell>{action.companyName}</TableCell>
+                                        <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
+                                        <TableCell className="whitespace-nowrap">{action.processor}</TableCell>
+                                        <TableCell className="whitespace-nowrap">{action.processedDate}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                ) : (
+                    <div className="text-center py-10 text-muted-foreground">
+                        <CheckCircle2 className="mx-auto h-12 w-12 mb-4" />
+                        <p className="text-lg">{holdingDictionary.noCompletedActions}</p>
+                    </div>
+                )}
               </CardContent>
            </Card>
         </TabsContent>
@@ -401,5 +451,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
     </div>
   );
 }
+
+    
 
     

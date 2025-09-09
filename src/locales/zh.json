@@ -48,6 +48,7 @@
     "completedTab": "已处理",
     "noCompletedActions": "暂无已处理事项。",
     "tableHeaderProcessor": "处理人",
+    "tableHeaderProcessedDate": "处理日期",
     "tableHeaderHoldingDetails": "客户持仓详情",
     "viewDetailsButton": "查看详情",
     "backToListButton": "返回列表",
@@ -89,5 +90,7 @@
     "chinese": "中文"
   }
 }
+
+    
 
     
