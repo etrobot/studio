@@ -53,9 +53,9 @@ export default async function RootLayout({
               dictionary={dict}
             />
             <main className="flex-grow">
-              <header className="flex items-center p-4 border-b md:hidden">
+              <header className="flex items-center p-4 border-b">
                 <SidebarTrigger />
-                <h1 className="text-xl font-semibold ml-4">{dict.appTitleShort}</h1>
+                <h1 className="text-xl font-semibold ml-4 md:hidden">{dict.appTitleShort}</h1>
               </header>
               <div className="p-4 sm:p-6 lg:p-8">
                 {children}

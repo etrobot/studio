@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookCopy, Users } from 'lucide-react';
+import { Users, BookCopy } from 'lucide-react';
 
 import type { Dictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/i18n-config';
@@ -15,8 +15,6 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarTrigger,
-  SidebarInset,
 } from '@/components/ui/sidebar';
 import LanguageSwitcher from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -47,12 +45,7 @@ export function AppSidebar({ lang, dictionary }: AppSidebarProps) {
   return (
       <Sidebar>
         <SidebarHeader>
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-semibold pl-2">{dictionary.appTitleShort}</h1>
-            <div className="hidden md:block">
-              <SidebarTrigger />
-            </div>
-          </div>
+          <h1 className="text-xl font-semibold pl-2">{dictionary.appTitleShort}</h1>
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
