@@ -59,7 +59,7 @@
       "chineseName": "Chinese Name",
       "englishName": "English Name",
       "accountNumber": "Account Number",
-      "quantity": "Quantity",
+      "quantity": "Quantity (yyyy-mm-dd hh:mm)",
       "clientEmail": "Client Email"
     },
     "dialog": {
