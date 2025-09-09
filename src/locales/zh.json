@@ -28,8 +28,6 @@
     "tableHeaderCompanyName": "公司名称",
     "tableHeaderActionType": "行动类型",
     "tableHeaderDetails": "详情",
-    "tableHeaderBefore": "之前",
-    "tableHeaderAfter": "之后",
     "tableHeaderEffectiveDate": "生效日期",
     "notAvailable": "- -",
     "toastNoDataTitle": "无数据",
@@ -59,7 +57,7 @@
       "chineseName": "客户中文名",
       "englishName": "英文名",
       "accountNumber": "客户账号",
-      "quantity": "持仓数量 (yyyy-mm-dd hh:mm)",
+      "quantity": "持仓数量 (2025-12-12 09:00)",
       "clientEmail": "客户邮箱"
     },
     "dialog": {

@@ -28,8 +28,6 @@
     "tableHeaderCompanyName": "Company Name",
     "tableHeaderActionType": "Action Type",
     "tableHeaderDetails": "Details",
-    "tableHeaderBefore": "Before",
-    "tableHeaderAfter": "After",
     "tableHeaderEffectiveDate": "Effective Date",
     "notAvailable": "- -",
     "toastNoDataTitle": "No Data",
@@ -59,7 +57,7 @@
       "chineseName": "Chinese Name",
       "englishName": "English Name",
       "accountNumber": "Account Number",
-      "quantity": "Quantity (yyyy-mm-dd hh:mm)",
+      "quantity": "Quantity (2025-12-12 09:00)",
       "clientEmail": "Client Email"
     },
     "dialog": {
