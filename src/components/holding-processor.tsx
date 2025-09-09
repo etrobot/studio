@@ -86,9 +86,6 @@ const sortedMockActions = [...mockStockActions].sort(
   (a, b) => new Date(b.announcementDate).getTime() - new Date(a.announcementDate).getTime()
 );
 
-// Get IDs of the newest 3 actions
-const newestActionIds = sortedMockActions.slice(0, 3).map(action => action.id);
-
 const ITEMS_PER_PAGE = 5;
 
 interface HoldingProcessorProps {
@@ -312,19 +309,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                         {paginatedActions.map((action) => (
                           <TableRow key={action.id}>
                             <TableCell className="whitespace-nowrap">
-                              <div className="flex items-center">
                                 <span>{action.announcementDate}</span>
-                                {newestActionIds.includes(action.id) && (
-                                  <Tooltip>
-                                    <TooltipTrigger asChild>
-                                      <Badge variant="default" className="ml-2 cursor-default bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      <p>{dictionary.newTagTooltip}</p>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                )}
-                              </div>
                             </TableCell>
                             <TableCell className="whitespace-nowrap">
                               <div className="flex items-center gap-2">
@@ -442,3 +427,5 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
     </div>
   );
 }
+
+    
