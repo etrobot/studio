@@ -59,7 +59,8 @@
       "chineseName": "Chinese Name",
       "englishName": "English Name",
       "accountNumber": "Account Number",
-      "quantity": "Quantity"
+      "quantity": "Quantity",
+      "clientEmail": "Client Email"
     },
     "dialog": {
       "title": "Confirm Processing",

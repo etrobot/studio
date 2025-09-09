@@ -59,7 +59,8 @@
       "chineseName": "客户中文名",
       "englishName": "英文名",
       "accountNumber": "客户账号",
-      "quantity": "持仓数量"
+      "quantity": "持仓数量",
+      "clientEmail": "客户邮箱"
     },
     "dialog": {
       "title": "确认处理",

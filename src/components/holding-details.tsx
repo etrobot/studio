@@ -2,7 +2,7 @@
 "use client"
 
 import Link from 'next/link';
-import { ArrowLeft, User, Calendar, FileText } from 'lucide-react';
+import { ArrowLeft, User, Calendar, FileText, Mail } from 'lucide-react';
 import type { Locale } from '@/i18n-config';
 import type { StockAction } from '@/types';
 import type { Dictionary } from '@/lib/dictionaries';
@@ -14,9 +14,9 @@ import { Badge } from '@/components/ui/badge';
 
 // Mock data for client holdings - in a real app, this would be fetched based on actionId
 const mockClientHoldings = [
-    { id: 'client1', chineseName: '张三', englishName: 'Zhang San', accountNumber: '12345678', quantity: 1000 },
-    { id: 'client2', chineseName: '李四', englishName: 'Li Si', accountNumber: '87654321', quantity: 500 },
-    { id: 'client3', chineseName: '王五', englishName: 'Wang Wu', accountNumber: '11223344', quantity: 2500 },
+    { id: 'client1', chineseName: '张三', englishName: 'Zhang San', accountNumber: '12345678', quantity: 1000, email: 'zhang.san@example.com' },
+    { id: 'client2', chineseName: '李四', englishName: 'Li Si', accountNumber: '87654321', quantity: 500, email: 'li.si@example.com' },
+    { id: 'client3', chineseName: '王五', englishName: 'Wang Wu', accountNumber: '11223344', quantity: 2500, email: 'wang.wu@example.com' },
 ];
 
 interface ProcessingDetails {
@@ -66,6 +66,7 @@ export default function HoldingDetails({ action, dictionary, lang, isCompleted, 
                     <TableHead>{dictionary.detailsTable.chineseName}</TableHead>
                     <TableHead>{dictionary.detailsTable.englishName}</TableHead>
                     <TableHead>{dictionary.detailsTable.accountNumber}</TableHead>
+                    <TableHead>{dictionary.detailsTable.clientEmail}</TableHead>
                     <TableHead className="text-right">{dictionary.detailsTable.quantity}</TableHead>
                 </TableRow>
                 </TableHeader>
@@ -75,6 +76,7 @@ export default function HoldingDetails({ action, dictionary, lang, isCompleted, 
                     <TableCell>{holding.chineseName}</TableCell>
                     <TableCell>{holding.englishName}</TableCell>
                     <TableCell>{holding.accountNumber}</TableCell>
+                    <TableCell>{holding.email}</TableCell>
                     <TableCell className="text-right">{holding.quantity.toLocaleString()}</TableCell>
                     </TableRow>
                 ))}
