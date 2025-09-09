@@ -50,7 +50,7 @@
     "tableHeaderProcessor": "Processor",
     "tableHeaderProcessedDate": "Processed Date",
     "tableHeaderHoldingDetails": "Client Holding Details",
-    "viewDetailsButton": "View Details",
+    "viewDetailsButton": "Process Details",
     "backToListButton": "Back to List",
     "holdingDetailsFor": "Holding Details for",
     "confirmProcessButton": "Confirm Processed",

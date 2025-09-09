@@ -344,9 +344,9 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                             <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                             <TableCell className="whitespace-nowrap">--</TableCell>
                             <TableCell className="text-center">
-                              <Button asChild variant="ghost" size="sm">
+                              <Button asChild variant="default" size="sm">
                                   <Link href={`${pathname}/${action.id}`}>
-                                    {holdingDictionary.viewDetailsButton} <ChevronRight className="h-4 w-4 ml-1" />
+                                    {holdingDictionary.viewDetailsButton}
                                   </Link>
                                 </Button>
                             </TableCell>
@@ -422,9 +422,9 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                                         <TableCell className="whitespace-nowrap">{action.processor}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.processedDate}</TableCell>
                                         <TableCell className="text-center">
-                                            <Button asChild variant="ghost" size="sm">
+                                             <Button asChild variant="default" size="sm">
                                                 <Link href={`${pathname}/${action.id}`}>
-                                                    {holdingDictionary.viewDetailsButton} <ChevronRight className="h-4 w-4 ml-1" />
+                                                    {holdingDictionary.viewDetailsButton}
                                                 </Link>
                                             </Button>
                                         </TableCell>

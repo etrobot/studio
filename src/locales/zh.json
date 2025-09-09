@@ -50,7 +50,7 @@
     "tableHeaderProcessor": "处理人",
     "tableHeaderProcessedDate": "处理日期",
     "tableHeaderHoldingDetails": "客户持仓详情",
-    "viewDetailsButton": "查看详情",
+    "viewDetailsButton": "处理明细",
     "backToListButton": "返回列表",
     "holdingDetailsFor": "持仓详情",
     "confirmProcessButton": "确认已处理",
