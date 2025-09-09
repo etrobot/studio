@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/sidebar';
 import LanguageSwitcher from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { InstructionsDialog } from './instructions-dialog';
 
 interface AppSidebarProps {
   lang: Locale;
@@ -66,6 +67,7 @@ export function AppSidebar({ lang, dictionary }: AppSidebarProps) {
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter className="flex-row items-center justify-end gap-2">
+          <InstructionsDialog dictionary={dictionary.instructionsDialog} />
           <LanguageSwitcher currentLang={lang} dictionary={dictionary.languageSwitcher} />
           <ThemeToggle dictionary={dictionary.themeToggle} />
         </SidebarFooter>
