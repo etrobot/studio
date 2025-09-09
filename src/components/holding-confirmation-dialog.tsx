@@ -30,7 +30,7 @@ export function HoldingConfirmationDialog({ dictionary }: HoldingConfirmationDia
   const { toast } = useToast();
 
   const formSchema = z.object({
-    remarks: z.string().min(1, { message: dictionary.dialog.remarksRequired }),
+    remarks: z.string(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
