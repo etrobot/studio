@@ -381,6 +381,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                                     <TableHead className="whitespace-nowrap">{dictionary.tableHeaderActionType}</TableHead>
                                     <TableHead className="whitespace-nowrap">{dictionary.tableHeaderTicker}</TableHead>
                                     <TableHead className="whitespace-nowrap">{dictionary.tableHeaderCompanyName}</TableHead>
+                                    <TableHead className="whitespace-nowrap">{dictionary.tableHeaderDetails}</TableHead>
                                     <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
                                     <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
                                     <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessedDate}</TableHead>
@@ -399,6 +400,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                                         </TableCell>
                                         <TableCell className="font-medium text-primary">{action.ticker}</TableCell>
                                         <TableCell>{action.companyName}</TableCell>
+                                        <TableCell>{action.actionDetails}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.processor}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.processedDate}</TableCell>
@@ -427,5 +429,3 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
     </div>
   );
 }
-
-    
