@@ -44,6 +44,9 @@
   },
   "holdingProcessor": {
     "title": "客户持仓处理",
+    "pendingTab": "待处理",
+    "completedTab": "已处理",
+    "noCompletedActions": "暂无已处理事项。",
     "tableHeaderProcessor": "处理人",
     "tableHeaderHoldingDetails": "客户持仓详情",
     "viewDetailsButton": "查看详情",
@@ -86,3 +89,5 @@
     "chinese": "中文"
   }
 }
+
+    

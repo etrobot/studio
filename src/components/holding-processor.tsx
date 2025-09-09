@@ -54,6 +54,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { Dictionary } from '@/lib/dictionaries';
@@ -277,108 +278,128 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
           </div>
         </CardContent>
       </Card>
-
-      <Card className="shadow-lg">
-        <CardContent className="pt-6">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" aria-label={dictionary.loadingSpinnerText}></div>
-            </div>
-          ) : paginatedActions.length > 0 ? (
-            <TooltipProvider>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAnnounceDate}</TableHead>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderActionType}</TableHead>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderTicker}</TableHead>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderCompanyName}</TableHead>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderDetails}</TableHead>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderBefore}</TableHead>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAfter}</TableHead>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
-                      <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
-                      <TableHead className="text-center whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {paginatedActions.map((action) => (
-                      <TableRow key={action.id}>
-                        <TableCell className="whitespace-nowrap">
-                          <div className="flex items-center">
-                            <span>{action.announcementDate}</span>
-                            {newestActionIds.includes(action.id) && (
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Badge variant="default" className="ml-2 cursor-default bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <p>{dictionary.newTagTooltip}</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell className="whitespace-nowrap">
-                          <div className="flex items-center gap-2">
-                            {getActionTypeIcon(action.actionType)}
-                            {actionTypeDictionary[action.actionType as StockActionType]}
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-medium text-primary">
-                          {action.ticker}
-                        </TableCell>
-                        <TableCell>{action.companyName}</TableCell>
-                        <TableCell>{action.actionDetails}</TableCell>
-                        <TableCell className="whitespace-nowrap">{action.valueBefore || dictionary.notAvailable}</TableCell>
-                        <TableCell className="whitespace-nowrap">{action.valueAfter || dictionary.notAvailable}</TableCell>
-                        <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
-                        <TableCell className="whitespace-nowrap">--</TableCell>
-                        <TableCell className="text-center">
-                           <Button asChild variant="ghost" size="sm">
-                              <Link href={`${pathname}/${action.id}`}>
-                                {holdingDictionary.viewDetailsButton} <ChevronRight className="h-4 w-4 ml-1" />
-                              </Link>
-                            </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-              {totalPages > 1 && (
-                <div className="flex items-center justify-between mt-6 pt-4 border-t">
-                  <Button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    variant="outline"
-                  >
-                    {dictionary.previousPage}
-                  </Button>
-                  <span className="text-sm text-muted-foreground">
-                    {dictionary.pageIndicator
-                      .replace('{currentPage}', currentPage.toString())
-                      .replace('{totalPages}', totalPages.toString())}
-                  </span>
-                  <Button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    variant="outline"
-                  >
-                    {dictionary.nextPage}
-                  </Button>
+      
+      <Tabs defaultValue="pending" className="w-full">
+        <TabsList>
+          <TabsTrigger value="pending">{holdingDictionary.pendingTab}</TabsTrigger>
+          <TabsTrigger value="completed">{holdingDictionary.completedTab}</TabsTrigger>
+        </TabsList>
+        <TabsContent value="pending">
+          <Card className="shadow-lg mt-4">
+            <CardContent className="pt-6">
+              {isLoading ? (
+                <div className="flex justify-center items-center h-64">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" aria-label={dictionary.loadingSpinnerText}></div>
+                </div>
+              ) : paginatedActions.length > 0 ? (
+                <TooltipProvider>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAnnounceDate}</TableHead>
+                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderActionType}</TableHead>
+                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderTicker}</TableHead>
+                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderCompanyName}</TableHead>
+                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderDetails}</TableHead>
+                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderBefore}</TableHead>
+                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAfter}</TableHead>
+                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
+                          <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
+                          <TableHead className="text-center whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {paginatedActions.map((action) => (
+                          <TableRow key={action.id}>
+                            <TableCell className="whitespace-nowrap">
+                              <div className="flex items-center">
+                                <span>{action.announcementDate}</span>
+                                {newestActionIds.includes(action.id) && (
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Badge variant="default" className="ml-2 cursor-default bg-[hsl(var(--chart-5))] text-primary-foreground">{dictionary.newTag}</Badge>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p>{dictionary.newTagTooltip}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                )}
+                              </div>
+                            </TableCell>
+                            <TableCell className="whitespace-nowrap">
+                              <div className="flex items-center gap-2">
+                                {getActionTypeIcon(action.actionType)}
+                                {actionTypeDictionary[action.actionType as StockActionType]}
+                              </div>
+                            </TableCell>
+                            <TableCell className="font-medium text-primary">
+                              {action.ticker}
+                            </TableCell>
+                            <TableCell>{action.companyName}</TableCell>
+                            <TableCell>{action.actionDetails}</TableCell>
+                            <TableCell className="whitespace-nowrap">{action.valueBefore || dictionary.notAvailable}</TableCell>
+                            <TableCell className="whitespace-nowrap">{action.valueAfter || dictionary.notAvailable}</TableCell>
+                            <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
+                            <TableCell className="whitespace-nowrap">--</TableCell>
+                            <TableCell className="text-center">
+                              <Button asChild variant="ghost" size="sm">
+                                  <Link href={`${pathname}/${action.id}`}>
+                                    {holdingDictionary.viewDetailsButton} <ChevronRight className="h-4 w-4 ml-1" />
+                                  </Link>
+                                </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                  {totalPages > 1 && (
+                    <div className="flex items-center justify-between mt-6 pt-4 border-t">
+                      <Button
+                        onClick={handlePreviousPage}
+                        disabled={currentPage === 1}
+                        variant="outline"
+                      >
+                        {dictionary.previousPage}
+                      </Button>
+                      <span className="text-sm text-muted-foreground">
+                        {dictionary.pageIndicator
+                          .replace('{currentPage}', currentPage.toString())
+                          .replace('{totalPages}', totalPages.toString())}
+                      </span>
+                      <Button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                        variant="outline"
+                      >
+                        {dictionary.nextPage}
+                      </Button>
+                    </div>
+                  )}
+                </TooltipProvider>
+              ) : (
+                <div className="text-center py-10 text-muted-foreground">
+                  <Info className="mx-auto h-12 w-12 mb-4" />
+                  <p className="text-lg">{dictionary.noActionsFound}</p>
                 </div>
               )}
-            </TooltipProvider>
-          ) : (
-            <div className="text-center py-10 text-muted-foreground">
-              <Info className="mx-auto h-12 w-12 mb-4" />
-              <p className="text-lg">{dictionary.noActionsFound}</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="completed">
+           <Card className="shadow-lg mt-4">
+              <CardContent className="pt-6">
+                 <div className="text-center py-10 text-muted-foreground">
+                    <Info className="mx-auto h-12 w-12 mb-4" />
+                    <p className="text-lg">{holdingDictionary.noCompletedActions}</p>
+                 </div>
+              </CardContent>
+           </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
+
+    

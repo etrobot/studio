@@ -44,6 +44,9 @@
   },
   "holdingProcessor": {
     "title": "Client Holding Processing",
+    "pendingTab": "Pending",
+    "completedTab": "Completed",
+    "noCompletedActions": "No completed actions found.",
     "tableHeaderProcessor": "Processor",
     "tableHeaderHoldingDetails": "Client Holding Details",
     "viewDetailsButton": "View Details",
@@ -86,3 +89,5 @@
     "chinese": "中文"
   }
 }
+
+    
