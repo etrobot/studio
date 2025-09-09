@@ -9,6 +9,7 @@ import { getDictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/i18n-config';
 import { i18n } from '@/i18n-config';
 import { AppSidebar } from '@/components/app-sidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -46,14 +47,21 @@ export default async function RootLayout({
           enableSystem={false}
           storageKey="app-theme"
         >
-          <AppSidebar
-            lang={params.lang}
-            dictionary={dict}
-          >
-            <main className="flex-grow py-4 px-4 sm:px-6 lg:px-8">
-              {children}
+          <SidebarProvider>
+            <AppSidebar
+              lang={params.lang}
+              dictionary={dict}
+            />
+            <main className="flex-grow">
+              <header className="flex items-center p-4 border-b md:hidden">
+                <SidebarTrigger />
+                <h1 className="text-xl font-semibold ml-4">{dict.appTitleShort}</h1>
+              </header>
+              <div className="p-4 sm:p-6 lg:p-8">
+                {children}
+              </div>
             </main>
-          </AppSidebar>
+          </SidebarProvider>
           <Toaster />
         </ThemeProvider>
       </body>

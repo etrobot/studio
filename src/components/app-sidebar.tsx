@@ -15,7 +15,6 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarProvider,
   SidebarTrigger,
   SidebarInset,
 } from '@/components/ui/sidebar';
@@ -23,36 +22,36 @@ import LanguageSwitcher from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 interface AppSidebarProps {
-  children: React.ReactNode;
   lang: Locale;
   dictionary: Dictionary;
 }
 
-export function AppSidebar({ children, lang, dictionary }: AppSidebarProps) {
+export function AppSidebar({ lang, dictionary }: AppSidebarProps) {
   const pathname = usePathname();
 
   const getPath = (path: string) => `/${lang}${path}`;
 
   const menuItems = [
     {
-      href: getPath('/corporate-actions'),
-      label: dictionary.sidebar.corporateActions,
-      icon: <BookCopy />,
-    },
-    {
       href: getPath('/holding-processing'),
       label: dictionary.sidebar.holdingProcessing,
       icon: <Users />,
     },
+    {
+      href: getPath('/corporate-actions'),
+      label: dictionary.sidebar.corporateActions,
+      icon: <BookCopy />,
+    },
   ];
 
   return (
-    <SidebarProvider>
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold pl-2">{dictionary.appTitleShort}</h1>
-            <SidebarTrigger />
+            <div className="hidden md:block">
+              <SidebarTrigger />
+            </div>
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -61,7 +60,7 @@ export function AppSidebar({ children, lang, dictionary }: AppSidebarProps) {
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
-                  isActive={pathname === item.href}
+                  isActive={pathname.startsWith(item.href)}
                   tooltip={item.label}
                 >
                   <Link href={item.href}>
@@ -78,7 +77,5 @@ export function AppSidebar({ children, lang, dictionary }: AppSidebarProps) {
           <ThemeToggle dictionary={dictionary.themeToggle} />
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset>{children}</SidebarInset>
-    </SidebarProvider>
   );
 }
