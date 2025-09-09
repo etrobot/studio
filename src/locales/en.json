@@ -99,8 +99,8 @@
   "instructionsDialog": {
     "triggerButton": "View Instructions",
     "title": "Operating Instructions",
-    "step1": "1. Corporate action and client holding data is refreshed daily at 7 AM and 7 PM. The 'Pending' page is updated, and email notifications are sent to relevant colleagues.",
-    "step2": "2. After processing at the counter, relevant colleagues confirm the action on the 'Pending' page, and the record is moved to the 'Completed' list.",
+    "step1": "Corporate action and client holding data is refreshed daily at 7 AM and 7 PM. The 'Pending' page is updated, and email notifications are sent to relevant colleagues.",
+    "step2": "After processing at the counter, relevant colleagues confirm the action on the 'Pending' page, and the record is moved to the 'Completed' list.",
     "closeButton": "Close"
   }
 }
