@@ -20,7 +20,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
-import { mockStockActions } from '@/lib/mock-data';
+import { mockStockActions, mockCompletedActions } from '@/lib/mock-data';
 import type { StockAction, StockActionType } from '@/types';
 import { ALL_ACTION_TYPES } from '@/types';
 import { exportToCSV } from '@/lib/utils';
@@ -85,19 +85,6 @@ const ALL_TYPES_VALUE = "all";
 const sortedMockActions = [...mockStockActions].sort(
   (a, b) => new Date(b.announcementDate).getTime() - new Date(a.announcementDate).getTime()
 );
-
-const mockCompletedActions: (StockAction & { processor: string; processedDate: string })[] = [
-    {
-        ...sortedMockActions[4], // Meta Ticker Change
-        processor: 'Admin A',
-        processedDate: '2024-05-02'
-    },
-    {
-        ...sortedMockActions[5], // Amazon Stock Split
-        processor: 'Admin B',
-        processedDate: '2024-03-21'
-    }
-];
 
 // Get IDs of the newest 3 actions
 const newestActionIds = sortedMockActions.slice(0, 3).map(action => action.id);
@@ -416,6 +403,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                                     <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
                                     <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
                                     <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessedDate}</TableHead>
+                                    <TableHead className="text-center whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -433,6 +421,13 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                                         <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.processor}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.processedDate}</TableCell>
+                                        <TableCell className="text-center">
+                                            <Button asChild variant="ghost" size="sm">
+                                                <Link href={`${pathname}/${action.id}`}>
+                                                    {holdingDictionary.viewDetailsButton} <ChevronRight className="h-4 w-4 ml-1" />
+                                                </Link>
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -451,7 +446,3 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
     </div>
   );
 }
-
-    
-
-    

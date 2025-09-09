@@ -54,6 +54,7 @@
     "backToListButton": "返回列表",
     "holdingDetailsFor": "持仓详情",
     "confirmProcessButton": "确认已处理",
+    "processingDetailsTitle": "处理详情",
     "detailsTable": {
       "chineseName": "客户中文名",
       "englishName": "英文名",
@@ -90,7 +91,3 @@
     "chinese": "中文"
   }
 }
-
-    
-
-    

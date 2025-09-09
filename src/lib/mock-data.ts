@@ -1,3 +1,4 @@
+
 import type { StockAction } from '@/types';
 
 export const mockStockActions: StockAction[] = [
@@ -111,4 +112,20 @@ export const mockStockActions: StockAction[] = [
     valueAfter: '1 share',
     effectiveDate: '2024-01-20',
   }
+];
+
+
+export const mockCompletedActions: (StockAction & { processor: string; processedDate: string; remarks: string })[] = [
+    {
+        ...mockStockActions.find(a => a.id === '5')!, // Meta Ticker Change
+        processor: 'Admin A',
+        processedDate: '2024-05-02',
+        remarks: 'Ticker change processed for all client holdings. Verified new ticker META is reflected in accounts.'
+    },
+    {
+        ...mockStockActions.find(a => a.id === '6')!, // Amazon Stock Split
+        processor: 'Admin B',
+        processedDate: '2024-03-21',
+        remarks: 'Stock split completed. All client accounts updated with the new share count.'
+    }
 ];

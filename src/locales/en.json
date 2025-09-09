@@ -54,6 +54,7 @@
     "backToListButton": "Back to List",
     "holdingDetailsFor": "Holding Details for",
     "confirmProcessButton": "Confirm Processed",
+    "processingDetailsTitle": "Processing Details",
     "detailsTable": {
       "chineseName": "Chinese Name",
       "englishName": "English Name",
@@ -90,7 +91,3 @@
     "chinese": "中文"
   }
 }
-
-    
-
-    
