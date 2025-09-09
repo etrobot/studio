@@ -1,14 +1,13 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
   DialogTrigger,
   DialogClose,
@@ -20,8 +19,18 @@ interface InstructionsDialogProps {
   dictionary: Dictionary['instructionsDialog'];
 }
 
+const INSTRUCTIONS_VIEWED_KEY = 'instructionsViewed';
+
 export function InstructionsDialog({ dictionary }: InstructionsDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const hasViewed = localStorage.getItem(INSTRUCTIONS_VIEWED_KEY);
+    if (!hasViewed) {
+      setIsOpen(true);
+      localStorage.setItem(INSTRUCTIONS_VIEWED_KEY, 'true');
+    }
+  }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
