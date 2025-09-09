@@ -19,12 +19,13 @@ import {
   ChevronRight,
   CheckCircle2,
   Settings,
+  ArrowUpDown,
 } from 'lucide-react';
 
 import { mockStockActions, mockCompletedActions } from '@/lib/mock-data';
 import type { StockAction, StockActionType } from '@/types';
 import { ALL_ACTION_TYPES } from '@/types';
-import { exportToCSV } from '@/lib/utils';
+import { exportToCSV, cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -83,12 +84,8 @@ const getActionTypeIcon = (actionType: StockActionType) => {
 
 const ALL_TYPES_VALUE = "all";
 
-// Sort initial actions by announcementDate descending
-const sortedMockActions = [...mockStockActions].sort(
-  (a, b) => new Date(b.announcementDate).getTime() - new Date(a.announcementDate).getTime()
-);
-
-const ITEMS_PER_PAGE = 5;
+type SortableKeys = 'announcementDate' | 'effectiveDate';
+type SortDirection = 'ascending' | 'descending';
 
 interface HoldingProcessorProps {
   dictionary: Dictionary['stockTracker'];
@@ -97,16 +94,19 @@ interface HoldingProcessorProps {
 }
 
 export default function HoldingProcessor({ dictionary, actionTypeDictionary, holdingDictionary }: HoldingProcessorProps) {
-  const [actions] = useState<StockAction[]>(sortedMockActions);
-  const [filteredActions, setFilteredActions] = useState<StockAction[]>(sortedMockActions);
+  const [actions] = useState<StockAction[]>([...mockStockActions]);
+  const [filteredActions, setFilteredActions] = useState<StockAction[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedActionType, setSelectedActionType] = useState<StockActionType | ''>('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState<{ key: SortableKeys; direction: SortDirection }>({ 
+    key: 'announcementDate', 
+    direction: 'descending' 
+  });
   const { toast } = useToast();
   const pathname = usePathname();
-
+  
   useEffect(() => {
     setIsLoading(true);
     let currentActions = [...actions];
@@ -127,42 +127,39 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
 
     if (dateRange?.from) {
       currentActions = currentActions.filter((action) => {
-        const effectiveDate = new Date(action.effectiveDate);
-        return effectiveDate >= new Date(dateRange.from as Date);
+        const announcementDate = new Date(action.announcementDate);
+        return announcementDate >= new Date(dateRange.from as Date);
       });
     }
     if (dateRange?.to) {
       currentActions = currentActions.filter((action) => {
-        const effectiveDate = new Date(action.effectiveDate);
+        const announcementDate = new Date(action.announcementDate);
         const toDate = new Date(dateRange.to as Date);
         toDate.setHours(23, 59, 59, 999); // Include the whole 'to' day
-        return effectiveDate <= toDate;
+        return announcementDate <= toDate;
       });
     }
+
+    // Sorting logic
+    currentActions.sort((a, b) => {
+        const dateA = new Date(a[sortConfig.key]).getTime();
+        const dateB = new Date(b[sortConfig.key]).getTime();
+        if (dateA < dateB) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (dateA > dateB) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+    });
     
     // Simulate loading delay
     setTimeout(() => {
       setFilteredActions(currentActions);
-      setCurrentPage(1); // Reset to first page when filters change
       setIsLoading(false);
     }, 300);
 
-  }, [actions, searchTerm, selectedActionType, dateRange]);
-
-  const totalPages = Math.ceil(filteredActions.length / ITEMS_PER_PAGE);
-  const paginatedActions = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    return filteredActions.slice(startIndex, endIndex);
-  }, [filteredActions, currentPage]);
-
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
+  }, [actions, searchTerm, selectedActionType, dateRange, sortConfig]);
 
   const handleExportCSV = () => {
     if (filteredActions.length === 0) {
@@ -186,7 +183,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
     setSearchTerm('');
     setSelectedActionType('');
     setDateRange(undefined);
-    // useEffect will handle resetting page and actions
+    setSortConfig({ key: 'announcementDate', direction: 'descending' });
   };
   
   const displayDateRange = useMemo(() => {
@@ -202,6 +199,31 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
       setSelectedActionType(value as StockActionType);
     }
   };
+
+  const requestSort = (key: SortableKeys) => {
+    let direction: SortDirection = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIndicator = (key: SortableKeys) => {
+    if (sortConfig.key !== key) return null;
+    return sortConfig.direction === 'ascending' ? '▲' : '▼';
+  };
+
+  const renderSortableHeader = (key: SortableKeys, label: string) => (
+    <TableHead 
+        className="whitespace-nowrap cursor-pointer hover:bg-muted/50"
+        onClick={() => requestSort(key)}
+    >
+        <div className="flex items-center gap-2">
+        {label}
+        <ArrowUpDown className={cn("h-4 w-4", sortConfig.key === key ? "text-foreground" : "text-muted-foreground")} />
+        </div>
+    </TableHead>
+  );
 
   return (
     <div className="space-y-8">
@@ -295,23 +317,23 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                 <div className="flex justify-center items-center h-64">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" aria-label={dictionary.loadingSpinnerText}></div>
                 </div>
-              ) : paginatedActions.length > 0 ? (
+              ) : filteredActions.length > 0 ? (
                 <TooltipProvider>
                   <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAnnounceDate}</TableHead>
+                          {renderSortableHeader('announcementDate', dictionary.tableHeaderAnnounceDate)}
                           <TableHead className="whitespace-nowrap">{dictionary.tableHeaderActionType}</TableHead>
                           <TableHead className="whitespace-nowrap">{dictionary.tableHeaderTicker}</TableHead>
                           <TableHead className="whitespace-nowrap">{dictionary.tableHeaderCompanyName}</TableHead>
                           <TableHead className="whitespace-nowrap">{dictionary.tableHeaderDetails}</TableHead>
-                          <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
+                          {renderSortableHeader('effectiveDate', dictionary.tableHeaderEffectiveDate)}
                           <TableHead className="text-center whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {paginatedActions.map((action) => (
+                        {filteredActions.map((action) => (
                           <TableRow key={action.id}>
                             <TableCell className="whitespace-nowrap">
                                 <span>{action.announcementDate}</span>
@@ -340,29 +362,6 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                       </TableBody>
                     </Table>
                   </div>
-                  {totalPages > 1 && (
-                    <div className="flex items-center justify-between mt-6 pt-4 border-t">
-                      <Button
-                        onClick={handlePreviousPage}
-                        disabled={currentPage === 1}
-                        variant="outline"
-                      >
-                        {dictionary.previousPage}
-                      </Button>
-                      <span className="text-sm text-muted-foreground">
-                        {dictionary.pageIndicator
-                          .replace('{currentPage}', currentPage.toString())
-                          .replace('{totalPages}', totalPages.toString())}
-                      </span>
-                      <Button
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                        variant="outline"
-                      >
-                        {dictionary.nextPage}
-                      </Button>
-                    </div>
-                  )}
                 </TooltipProvider>
               ) : (
                 <div className="text-center py-10 text-muted-foreground">
@@ -433,5 +432,3 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
     </div>
   );
 }
-
-    
