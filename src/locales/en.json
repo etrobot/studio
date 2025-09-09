@@ -45,7 +45,28 @@
   "holdingProcessor": {
     "title": "Client Holding Processing",
     "tableHeaderProcessor": "Processor",
-    "tableHeaderHoldingDetails": "Client Holding Details"
+    "tableHeaderHoldingDetails": "Client Holding Details",
+    "viewDetailsButton": "View Details",
+    "backToListButton": "Back to List",
+    "holdingDetailsFor": "Holding Details for",
+    "confirmProcessButton": "Confirm Processed",
+    "detailsTable": {
+      "chineseName": "Chinese Name",
+      "englishName": "English Name",
+      "accountNumber": "Account Number",
+      "quantity": "Quantity"
+    },
+    "dialog": {
+      "title": "Confirm Processing",
+      "description": "Please enter remarks before confirming that the holdings have been processed.",
+      "remarksLabel": "Remarks",
+      "remarksPlaceholder": "Type your processing notes here...",
+      "remarksRequired": "Remarks are required.",
+      "cancelButton": "Cancel",
+      "submitButton": "Submit",
+      "toastSuccessTitle": "Processing Confirmed",
+      "toastSuccessDescription": "The client holdings have been marked as processed."
+    }
   },
   "actionTypes": {
     "Dividend": "Dividend",

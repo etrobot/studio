@@ -45,7 +45,28 @@
   "holdingProcessor": {
     "title": "客户持仓处理",
     "tableHeaderProcessor": "处理人",
-    "tableHeaderHoldingDetails": "客户持仓详情"
+    "tableHeaderHoldingDetails": "客户持仓详情",
+    "viewDetailsButton": "查看详情",
+    "backToListButton": "返回列表",
+    "holdingDetailsFor": "持仓详情",
+    "confirmProcessButton": "确认已处理",
+    "detailsTable": {
+      "chineseName": "客户中文名",
+      "englishName": "英文名",
+      "accountNumber": "客户账号",
+      "quantity": "持仓数量"
+    },
+    "dialog": {
+      "title": "确认处理",
+      "description": "在确认持仓已处理前，请输入备注信息。",
+      "remarksLabel": "备注",
+      "remarksPlaceholder": "在此输入您的处理备注...",
+      "remarksRequired": "备注不能为空。",
+      "cancelButton": "取消",
+      "submitButton": "提交",
+      "toastSuccessTitle": "处理已确认",
+      "toastSuccessDescription": "客户持仓已被标记为已处理。"
+    }
   },
   "actionTypes": {
     "Dividend": "股息",

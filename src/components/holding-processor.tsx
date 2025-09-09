@@ -4,6 +4,7 @@
 import type { ChangeEvent } from 'react';
 import React, { useState, useEffect, useMemo } from 'react';
 import type { DateRange } from 'react-day-picker';
+import Link from 'next/link';
 import {
   Landmark,
   Scissors,
@@ -15,6 +16,7 @@ import {
   CalendarDays,
   RotateCcw,
   Info,
+  ChevronRight,
 } from 'lucide-react';
 
 import { mockStockActions } from '@/lib/mock-data';
@@ -55,6 +57,7 @@ import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { Dictionary } from '@/lib/dictionaries';
+import { usePathname } from 'next/navigation';
 
 const getActionTypeIcon = (actionType: StockActionType) => {
   const iconColor = "text-[hsl(var(--chart-2))]";
@@ -101,6 +104,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const { toast } = useToast();
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsLoading(true);
@@ -295,7 +299,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAfter}</TableHead>
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
                       <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
-                      <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
+                      <TableHead className="text-center whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -331,7 +335,13 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                         <TableCell className="whitespace-nowrap">{action.valueAfter || dictionary.notAvailable}</TableCell>
                         <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                         <TableCell className="whitespace-nowrap">--</TableCell>
-                        <TableCell className="whitespace-nowrap">--</TableCell>
+                        <TableCell className="text-center">
+                           <Button asChild variant="ghost" size="sm">
+                              <Link href={`${pathname}/${action.id}`}>
+                                {holdingDictionary.viewDetailsButton} <ChevronRight className="h-4 w-4 ml-1" />
+                              </Link>
+                            </Button>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
