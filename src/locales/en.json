@@ -29,7 +29,6 @@
     "tableHeaderActionType": "Action Type",
     "tableHeaderDetails": "Details",
     "tableHeaderEffectiveDate": "Effective Date",
-    "notAvailable": "- -",
     "toastNoDataTitle": "No Data",
     "toastNoDataDescription": "There is no data to export.",
     "toastExportSuccessTitle": "Export Successful",
@@ -53,6 +52,7 @@
     "holdingDetailsFor": "Holding Details for",
     "confirmProcessButton": "Confirm Processed",
     "processingDetailsTitle": "Processing Details",
+    "manageActionTypesButton": "Manage Action Types",
     "detailsTable": {
       "chineseName": "Chinese Name",
       "englishName": "English Name",
@@ -65,11 +65,18 @@
       "description": "Please enter remarks before confirming that the holdings have been processed.",
       "remarksLabel": "Remarks",
       "remarksPlaceholder": "Type your processing notes here...",
-      "remarksRequired": "Remarks are required.",
       "cancelButton": "Cancel",
       "submitButton": "Submit",
       "toastSuccessTitle": "Processing Confirmed",
       "toastSuccessDescription": "The client holdings have been marked as processed."
+    },
+    "manageDialog": {
+      "title": "Manage Action Types",
+      "description": "Select the corporate action types to be displayed.",
+      "cancelButton": "Cancel",
+      "submitButton": "Confirm",
+      "toastSuccessTitle": "Settings Saved",
+      "toastSuccessDescription": "Your action type preferences have been updated."
     }
   },
   "actionTypes": {
@@ -90,3 +97,5 @@
     "chinese": "中文"
   }
 }
+
+    

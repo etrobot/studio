@@ -18,6 +18,7 @@ import {
   Info,
   ChevronRight,
   CheckCircle2,
+  Settings,
 } from 'lucide-react';
 
 import { mockStockActions, mockCompletedActions } from '@/lib/mock-data';
@@ -60,6 +61,7 @@ import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { Dictionary } from '@/lib/dictionaries';
 import { usePathname } from 'next/navigation';
+import { ActionTypeManagementDialog } from './action-type-management-dialog';
 
 const getActionTypeIcon = (actionType: StockActionType) => {
   const iconColor = "text-[hsl(var(--chart-2))]";
@@ -204,7 +206,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
   return (
     <div className="space-y-8">
       <Card className="shadow-lg">
-        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 pt-6">
+        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5 pt-6">
           <div className="space-y-1">
             <label htmlFor="search-ticker" className="text-sm font-medium">{dictionary.searchLabel}</label>
             <div className="relative">
@@ -266,13 +268,17 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
             </Popover>
           </div>
           
-          <div className="flex items-end space-x-2">
+          <div className="flex items-end space-x-2 lg:col-span-2">
             <Button onClick={handleClearFilters} variant="outline" className="w-full md:w-auto">
               <RotateCcw className="mr-2 h-4 w-4" /> {dictionary.clearFiltersButton}
             </Button>
             <Button onClick={handleExportCSV} className="w-full md:w-auto bg-primary hover:bg-primary/90">
               <Download className="mr-2 h-4 w-4" /> {dictionary.exportCSVButton}
             </Button>
+             <ActionTypeManagementDialog
+                dictionary={holdingDictionary}
+                actionTypeDictionary={actionTypeDictionary}
+              />
           </div>
         </CardContent>
       </Card>
@@ -301,7 +307,6 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                           <TableHead className="whitespace-nowrap">{dictionary.tableHeaderCompanyName}</TableHead>
                           <TableHead className="whitespace-nowrap">{dictionary.tableHeaderDetails}</TableHead>
                           <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
-                          <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
                           <TableHead className="text-center whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -323,7 +328,6 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                             <TableCell>{action.companyName}</TableCell>
                             <TableCell>{action.actionDetails}</TableCell>
                             <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
-                            <TableCell className="whitespace-nowrap">--</TableCell>
                             <TableCell className="text-center">
                               <Button asChild variant="default" size="sm">
                                   <Link href={`${pathname}/${action.id}`}>
@@ -429,3 +433,5 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
     </div>
   );
 }
+
+    
