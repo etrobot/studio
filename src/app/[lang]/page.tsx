@@ -1,10 +1,7 @@
-import StockActionTracker from '@/components/stock-action-tracker';
-import { getDictionary } from '@/lib/dictionaries';
+
+import { redirect } from 'next/navigation';
 import type { Locale } from '@/i18n-config';
 
-export default async function Home({ params: { lang } }: { params: { lang: Locale } }) {
-  const dict = await getDictionary(lang);
-  return (
-      <StockActionTracker dictionary={dict.stockTracker} actionTypeDictionary={dict.actionTypes} />
-  );
+export default function Home({ params: { lang } }: { params: { lang: Locale } }) {
+  redirect(`/${lang}/corporate-actions`);
 }

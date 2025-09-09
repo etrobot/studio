@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import type { ChangeEvent } from 'react';
@@ -87,12 +86,13 @@ const newestActionIds = sortedMockActions.slice(0, 3).map(action => action.id);
 
 const ITEMS_PER_PAGE = 5;
 
-interface StockActionTrackerProps {
+interface HoldingProcessorProps {
   dictionary: Dictionary['stockTracker'];
   actionTypeDictionary: Dictionary['actionTypes'];
+  holdingDictionary: Dictionary['holdingProcessor'];
 }
 
-export default function StockActionTracker({ dictionary, actionTypeDictionary }: StockActionTrackerProps) {
+export default function HoldingProcessor({ dictionary, actionTypeDictionary, holdingDictionary }: HoldingProcessorProps) {
   const [actions] = useState<StockAction[]>(sortedMockActions);
   const [filteredActions, setFilteredActions] = useState<StockAction[]>(sortedMockActions);
   const [searchTerm, setSearchTerm] = useState('');
@@ -294,6 +294,8 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderBefore}</TableHead>
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAfter}</TableHead>
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
+                      <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
+                      <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -328,6 +330,8 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                         <TableCell className="whitespace-nowrap">{action.valueBefore || dictionary.notAvailable}</TableCell>
                         <TableCell className="whitespace-nowrap">{action.valueAfter || dictionary.notAvailable}</TableCell>
                         <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
+                        <TableCell className="whitespace-nowrap">--</TableCell>
+                        <TableCell className="whitespace-nowrap">--</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

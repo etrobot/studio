@@ -5,6 +5,10 @@
     "title": "美股公司行动查询",
     "description": "追踪美国股票的公司行动"
   },
+  "sidebar": {
+    "corporateActions": "公司行动查询",
+    "holdingProcessing": "客户持仓处理"
+  },
   "stockTracker": {
     "title": "美股公司行动查询",
     "filtersTitle": "筛选器",
@@ -37,6 +41,11 @@
     "previousPage": "上一页",
     "nextPage": "下一页",
     "pageIndicator": "第 {currentPage} 页 / 共 {totalPages} 页"
+  },
+  "holdingProcessor": {
+    "title": "客户持仓处理",
+    "tableHeaderProcessor": "处理人",
+    "tableHeaderHoldingDetails": "客户持仓详情"
   },
   "actionTypes": {
     "Dividend": "股息",

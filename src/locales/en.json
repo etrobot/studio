@@ -5,6 +5,10 @@
     "title": "US Corporate Actions Lookup",
     "description": "Track US stock corporate actions"
   },
+  "sidebar": {
+    "corporateActions": "Corporate Actions",
+    "holdingProcessing": "Holding Processing"
+  },
   "stockTracker": {
     "title": "US Corporate Actions Lookup",
     "filtersTitle": "Filters",
@@ -37,6 +41,11 @@
     "previousPage": "Previous",
     "nextPage": "Next",
     "pageIndicator": "Page {currentPage} of {totalPages}"
+  },
+  "holdingProcessor": {
+    "title": "Client Holding Processing",
+    "tableHeaderProcessor": "Processor",
+    "tableHeaderHoldingDetails": "Client Holding Details"
   },
   "actionTypes": {
     "Dividend": "Dividend",

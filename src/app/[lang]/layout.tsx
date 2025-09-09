@@ -2,14 +2,13 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
-import '../globals.css'; // Adjusted path
+import '../globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from '@/components/theme-provider';
-import LanguageSwitcher from '@/components/language-switcher';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { getDictionary } from '@/lib/dictionaries';
 import type { Locale } from '@/i18n-config';
 import { i18n } from '@/i18n-config';
+import { AppSidebar } from '@/components/app-sidebar';
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -47,21 +46,15 @@ export default async function RootLayout({
           enableSystem={false}
           storageKey="app-theme"
         >
-          <div className="min-h-screen flex flex-col">
-            <header className="py-4 px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between items-center">
-                <h1 className="text-xl font-semibold sm:text-2xl">{dict.appTitleShort}</h1>
-                <div className="flex items-center space-x-2">
-                  <LanguageSwitcher currentLang={params.lang} dictionary={dict.languageSwitcher} />
-                  <ThemeToggle dictionary={dict.themeToggle} />
-                </div>
-              </div>
-            </header>
+          <AppSidebar
+            lang={params.lang}
+            dictionary={dict}
+          >
             <main className="flex-grow py-4 px-4 sm:px-6 lg:px-8">
               {children}
             </main>
-            <Toaster />
-          </div>
+          </AppSidebar>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
