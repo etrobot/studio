@@ -88,8 +88,8 @@ export const mockStockActions: StockAction[] = [
     announcementDate: '2024-01-05',
     ticker: 'SPCE',
     companyName: 'Virgin Galactic Holdings',
-    actionType: 'Trading Status Change',
-    actionDetails: 'Reverse stock split 1-for-20.',
+    actionType: 'Stock Split/Consolidation',
+    actionDetails: '1-for-20 reverse stock split.',
     effectiveDate: '2024-01-20',
   },
   {

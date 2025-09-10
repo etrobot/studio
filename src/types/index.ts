@@ -5,7 +5,7 @@ export const HOLDING_ACTION_TYPES: HoldingActionType[] = ['Bonus Issue', 'Stock 
 export type LookupActionType = 'Cash Dividend' | 'Bonus Issue' | 'Stock Split/Consolidation' | 'Ticker Change' | 'Shareholder Meeting' | 'Board Transfer' | 'Trading Status Change';
 export const LOOKUP_ACTION_TYPES: LookupActionType[] = ['Cash Dividend', 'Bonus Issue', 'Stock Split/Consolidation', 'Ticker Change', 'Shareholder Meeting', 'Board Transfer', 'Trading Status Change'];
 
-export type StockActionType = HoldingActionType | LookupActionType;
+export type StockActionType = 'Cash Dividend' | 'Bonus Issue' | 'Stock Split/Consolidation' | 'Ticker Change' | 'Shareholder Meeting' | 'Board Transfer' | 'Trading Status Change';
 
 export interface StockAction {
   id: string;
