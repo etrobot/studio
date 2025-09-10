@@ -25,10 +25,13 @@ export function InstructionsDialog({ dictionary }: InstructionsDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const hasViewed = localStorage.getItem(INSTRUCTIONS_VIEWED_KEY);
-    if (!hasViewed) {
-      setIsOpen(true);
-      localStorage.setItem(INSTRUCTIONS_VIEWED_KEY, 'true');
+    // Ensure this runs only on the client side
+    if (typeof window !== 'undefined') {
+      const hasViewed = localStorage.getItem(INSTRUCTIONS_VIEWED_KEY);
+      if (!hasViewed) {
+        setIsOpen(true);
+        localStorage.setItem(INSTRUCTIONS_VIEWED_KEY, 'true');
+      }
     }
   }, []);
 
