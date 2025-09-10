@@ -52,7 +52,6 @@
     "holdingDetailsFor": "Holding Details for",
     "confirmProcessButton": "Confirm Processed",
     "processingDetailsTitle": "Processing Details",
-    "manageActionTypesButton": "Manage Action Types",
     "detailsTable": {
       "chineseName": "Chinese Name",
       "englishName": "English Name",
@@ -69,22 +68,16 @@
       "submitButton": "Submit",
       "toastSuccessTitle": "Processing Confirmed",
       "toastSuccessDescription": "The client holdings have been marked as processed."
-    },
-    "manageDialog": {
-      "title": "Manage Action Types",
-      "description": "Select the corporate action types to be displayed.",
-      "cancelButton": "Cancel",
-      "submitButton": "Confirm",
-      "toastSuccessTitle": "Settings Saved",
-      "toastSuccessDescription": "Your action type preferences have been updated."
     }
   },
   "actionTypes": {
-    "Dividend": "Dividend",
-    "Stock Split": "Stock Split",
+    "Bonus Issue": "Bonus Issue",
+    "Stock Split/Consolidation": "Stock Split/Consolidation",
     "Ticker Change": "Ticker Change",
-    "Merger": "Merger",
-    "Other": "Other"
+    "Cash Dividend": "Cash Dividend",
+    "Shareholder Meeting": "Shareholder Meeting",
+    "Board Transfer": "Board Transfer",
+    "Trading Status Change": "Trading Status Change"
   },
   "themeToggle": {
     "light": "Light",

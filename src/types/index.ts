@@ -1,6 +1,11 @@
-export type StockActionType = 'Dividend' | 'Stock Split' | 'Ticker Change' | 'Merger' | 'Other';
 
-export const ALL_ACTION_TYPES: StockActionType[] = ['Dividend', 'Stock Split', 'Ticker Change', 'Merger', 'Other'];
+export type HoldingActionType = 'Bonus Issue' | 'Stock Split/Consolidation' | 'Ticker Change';
+export const HOLDING_ACTION_TYPES: HoldingActionType[] = ['Bonus Issue', 'Stock Split/Consolidation', 'Ticker Change'];
+
+export type LookupActionType = 'Cash Dividend' | 'Bonus Issue' | 'Stock Split/Consolidation' | 'Ticker Change' | 'Shareholder Meeting' | 'Board Transfer' | 'Trading Status Change';
+export const LOOKUP_ACTION_TYPES: LookupActionType[] = ['Cash Dividend', 'Bonus Issue', 'Stock Split/Consolidation', 'Ticker Change', 'Shareholder Meeting', 'Board Transfer', 'Trading Status Change'];
+
+export type StockActionType = HoldingActionType | LookupActionType;
 
 export interface StockAction {
   id: string;
@@ -9,7 +14,5 @@ export interface StockAction {
   companyName: string;
   actionType: StockActionType;
   actionDetails: string;
-  valueBefore?: string | number;
-  valueAfter?: string | number;
   effectiveDate: string; // YYYY-MM-DD
 }

@@ -16,11 +16,14 @@ import {
   CalendarDays,
   RotateCcw,
   Info,
+  Briefcase,
+  TrendingUp,
+  BookUser,
 } from 'lucide-react';
 
 import { mockStockActions } from '@/lib/mock-data';
-import type { StockAction, StockActionType } from '@/types';
-import { ALL_ACTION_TYPES } from '@/types';
+import type { StockAction, LookupActionType } from '@/types';
+import { LOOKUP_ACTION_TYPES } from '@/types';
 import { exportToCSV } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -57,19 +60,23 @@ import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { Dictionary } from '@/lib/dictionaries';
 
-const getActionTypeIcon = (actionType: StockActionType) => {
+const getActionTypeIcon = (actionType: LookupActionType) => {
   const iconColor = "text-[hsl(var(--chart-2))]";
   switch (actionType) {
-    case 'Dividend':
+    case 'Cash Dividend':
       return <Landmark className={`h-5 w-5 ${iconColor}`} />;
-    case 'Stock Split':
+    case 'Bonus Issue':
+      return <Briefcase className={`h-5 w-5 ${iconColor}`} />;
+    case 'Stock Split/Consolidation':
       return <Scissors className={`h-5 w-5 ${iconColor}`} />;
     case 'Ticker Change':
       return <ReplaceAll className={`h-5 w-5 ${iconColor}`} />;
-    case 'Merger':
+    case 'Shareholder Meeting':
       return <Users2 className={`h-5 w-5 ${iconColor}`} />;
-    case 'Other':
-      return <HelpCircle className={`h-5 w-5 ${iconColor}`} />;
+    case 'Board Transfer':
+      return <TrendingUp className={`h-5 w-5 ${iconColor}`} />;
+    case 'Trading Status Change':
+        return <BookUser className={`h-5 w-5 ${iconColor}`} />;
     default:
       return <Info className="h-5 w-5 text-muted-foreground" />;
   }
@@ -96,7 +103,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
   const [actions] = useState<StockAction[]>(sortedMockActions);
   const [filteredActions, setFilteredActions] = useState<StockAction[]>(sortedMockActions);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedActionType, setSelectedActionType] = useState<StockActionType | ''>('');
+  const [selectedActionType, setSelectedActionType] = useState<LookupActionType | ''>('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -194,7 +201,7 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
     if (value === ALL_TYPES_VALUE) {
       setSelectedActionType('');
     } else {
-      setSelectedActionType(value as StockActionType);
+      setSelectedActionType(value as LookupActionType);
     }
   };
 
@@ -228,9 +235,9 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={ALL_TYPES_VALUE}>{dictionary.allActionTypes}</SelectItem>
-                {ALL_ACTION_TYPES.map((type) => (
+                {LOOKUP_ACTION_TYPES.map((type) => (
                   <SelectItem key={type} value={type}>
-                    {actionTypeDictionary[type as StockActionType]}
+                    {actionTypeDictionary[type as LookupActionType]}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -314,8 +321,8 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                         </TableCell>
                         <TableCell className="whitespace-nowrap">
                           <div className="flex items-center gap-2">
-                            {getActionTypeIcon(action.actionType)}
-                            {actionTypeDictionary[action.actionType as StockActionType]}
+                            {getActionTypeIcon(action.actionType as LookupActionType)}
+                            {actionTypeDictionary[action.actionType as LookupActionType]}
                           </div>
                         </TableCell>
                         <TableCell className="font-medium text-primary">

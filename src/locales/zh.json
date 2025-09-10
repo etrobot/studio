@@ -52,7 +52,6 @@
     "holdingDetailsFor": "持仓详情",
     "confirmProcessButton": "确认已处理",
     "processingDetailsTitle": "处理详情",
-    "manageActionTypesButton": "处理类型管理",
     "detailsTable": {
       "chineseName": "客户中文名",
       "englishName": "英文名",
@@ -69,22 +68,16 @@
       "submitButton": "提交",
       "toastSuccessTitle": "处理已确认",
       "toastSuccessDescription": "客户持仓已被标记为已处理。"
-    },
-    "manageDialog": {
-      "title": "处理类型管理",
-      "description": "请选择需要显示的公司行动类型。",
-      "cancelButton": "取消",
-      "submitButton": "确认提交",
-      "toastSuccessTitle": "设置已保存",
-      "toastSuccessDescription": "您的行动类型偏好已更新。"
     }
   },
   "actionTypes": {
-    "Dividend": "股息",
-    "Stock Split": "股票分割",
-    "Ticker Change": "代码变更",
-    "Merger": "合并",
-    "Other": "其他"
+    "Bonus Issue": "分红派股",
+    "Stock Split/Consolidation": "拆合股",
+    "Ticker Change": "代码更改",
+    "Cash Dividend": "现金分红",
+    "Shareholder Meeting": "股东大会",
+    "Board Transfer": "转板",
+    "Trading Status Change": "交易状态变更"
   },
   "themeToggle": {
     "light": "浅色",

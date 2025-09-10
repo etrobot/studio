@@ -23,8 +23,8 @@ import {
 } from 'lucide-react';
 
 import { mockStockActions, mockCompletedActions } from '@/lib/mock-data';
-import type { StockAction, StockActionType } from '@/types';
-import { ALL_ACTION_TYPES } from '@/types';
+import type { StockAction, HoldingActionType } from '@/types';
+import { HOLDING_ACTION_TYPES } from '@/types';
 import { exportToCSV, cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,21 +62,16 @@ import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { Dictionary } from '@/lib/dictionaries';
 import { usePathname } from 'next/navigation';
-import { ActionTypeManagementDialog } from './action-type-management-dialog';
 
-const getActionTypeIcon = (actionType: StockActionType) => {
+const getActionTypeIcon = (actionType: HoldingActionType) => {
   const iconColor = "text-[hsl(var(--chart-2))]";
   switch (actionType) {
-    case 'Dividend':
+    case 'Bonus Issue':
       return <Landmark className={`h-5 w-5 ${iconColor}`} />;
-    case 'Stock Split':
+    case 'Stock Split/Consolidation':
       return <Scissors className={`h-5 w-5 ${iconColor}`} />;
     case 'Ticker Change':
       return <ReplaceAll className={`h-5 w-5 ${iconColor}`} />;
-    case 'Merger':
-      return <Users2 className={`h-5 w-5 ${iconColor}`} />;
-    case 'Other':
-      return <HelpCircle className={`h-5 w-5 ${iconColor}`} />;
     default:
       return <Info className="h-5 w-5 text-muted-foreground" />;
   }
@@ -94,10 +89,10 @@ interface HoldingProcessorProps {
 }
 
 export default function HoldingProcessor({ dictionary, actionTypeDictionary, holdingDictionary }: HoldingProcessorProps) {
-  const [actions] = useState<StockAction[]>([...mockStockActions]);
+  const [actions] = useState<StockAction[]>([...mockStockActions.filter(a => HOLDING_ACTION_TYPES.includes(a.actionType as HoldingActionType))]);
   const [filteredActions, setFilteredActions] = useState<StockAction[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedActionType, setSelectedActionType] = useState<StockActionType | ''>('');
+  const [selectedActionType, setSelectedActionType] = useState<HoldingActionType | ''>('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: SortableKeys; direction: SortDirection }>({ 
@@ -196,7 +191,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
     if (value === ALL_TYPES_VALUE) {
       setSelectedActionType('');
     } else {
-      setSelectedActionType(value as StockActionType);
+      setSelectedActionType(value as HoldingActionType);
     }
   };
 
@@ -228,7 +223,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
   return (
     <div className="space-y-8">
       <Card className="shadow-lg">
-        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5 pt-6">
+        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 pt-6">
           <div className="space-y-1">
             <label htmlFor="search-ticker" className="text-sm font-medium">{dictionary.searchLabel}</label>
             <div className="relative">
@@ -255,9 +250,9 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={ALL_TYPES_VALUE}>{dictionary.allActionTypes}</SelectItem>
-                {ALL_ACTION_TYPES.map((type) => (
+                {HOLDING_ACTION_TYPES.map((type) => (
                   <SelectItem key={type} value={type}>
-                    {actionTypeDictionary[type as StockActionType]}
+                    {actionTypeDictionary[type as HoldingActionType]}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -290,17 +285,13 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
             </Popover>
           </div>
           
-          <div className="flex items-end space-x-2 lg:col-span-2">
+          <div className="flex items-end space-x-2">
             <Button onClick={handleClearFilters} variant="outline" className="w-full md:w-auto">
               <RotateCcw className="mr-2 h-4 w-4" /> {dictionary.clearFiltersButton}
             </Button>
             <Button onClick={handleExportCSV} className="w-full md:w-auto bg-primary hover:bg-primary/90">
               <Download className="mr-2 h-4 w-4" /> {dictionary.exportCSVButton}
             </Button>
-             <ActionTypeManagementDialog
-                dictionary={holdingDictionary}
-                actionTypeDictionary={actionTypeDictionary}
-              />
           </div>
         </CardContent>
       </Card>
@@ -340,8 +331,8 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                             </TableCell>
                             <TableCell className="whitespace-nowrap">
                               <div className="flex items-center gap-2">
-                                {getActionTypeIcon(action.actionType)}
-                                {actionTypeDictionary[action.actionType as StockActionType]}
+                                {getActionTypeIcon(action.actionType as HoldingActionType)}
+                                {actionTypeDictionary[action.actionType as HoldingActionType]}
                               </div>
                             </TableCell>
                             <TableCell className="font-medium text-primary">
@@ -397,8 +388,8 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                                         <TableCell className="whitespace-nowrap">{action.announcementDate}</TableCell>
                                         <TableCell className="whitespace-nowrap">
                                             <div className="flex items-center gap-2">
-                                                {getActionTypeIcon(action.actionType)}
-                                                {actionTypeDictionary[action.actionType as StockActionType]}
+                                                {getActionTypeIcon(action.actionType as HoldingActionType)}
+                                                {actionTypeDictionary[action.actionType as HoldingActionType]}
                                             </div>
                                         </TableCell>
                                         <TableCell className="font-medium text-primary">{action.ticker}</TableCell>
