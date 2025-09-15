@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import type { ChangeEvent } from 'react';
@@ -298,9 +297,9 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderTicker}</TableHead>
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderCompanyName}</TableHead>
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderDetails}</TableHead>
-                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderBefore}</TableHead>
                       <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAfter}</TableHead>
+                      <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -332,9 +331,9 @@ export default function StockActionTracker({ dictionary, actionTypeDictionary }:
                         </TableCell>
                         <TableCell>{action.companyName}</TableCell>
                         <TableCell>{action.actionDetails}</TableCell>
-                        <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                         <TableCell className="whitespace-nowrap">{action.before ?? '-'}</TableCell>
                         <TableCell className="whitespace-nowrap">{action.after ?? '-'}</TableCell>
+                        <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
