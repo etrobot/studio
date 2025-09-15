@@ -9,17 +9,13 @@ import {
   Landmark,
   Scissors,
   ReplaceAll,
-  Users2,
-  HelpCircle,
   Download,
   Search,
   CalendarDays,
   RotateCcw,
   Info,
-  ChevronRight,
-  CheckCircle2,
-  Settings,
   ArrowUpDown,
+  CheckCircle2,
 } from 'lucide-react';
 
 import { mockStockActions, mockCompletedActions } from '@/lib/mock-data';
@@ -56,7 +52,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
@@ -82,6 +77,8 @@ const ALL_TYPES_VALUE = "all";
 type SortableKeys = 'announcementDate' | 'effectiveDate';
 type SortDirection = 'ascending' | 'descending';
 
+const ITEMS_PER_PAGE = 5;
+
 interface HoldingProcessorProps {
   dictionary: Dictionary['stockTracker'];
   actionTypeDictionary: Dictionary['actionTypes'];
@@ -101,6 +98,7 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
   });
   const { toast } = useToast();
   const pathname = usePathname();
+  const [completedCurrentPage, setCompletedCurrentPage] = useState(1);
   
   useEffect(() => {
     setIsLoading(true);
@@ -156,6 +154,21 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
 
   }, [actions, searchTerm, selectedActionType, dateRange, sortConfig]);
 
+  const totalCompletedPages = Math.ceil(mockCompletedActions.length / ITEMS_PER_PAGE);
+  const paginatedCompletedActions = useMemo(() => {
+    const startIndex = (completedCurrentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return mockCompletedActions.slice(startIndex, endIndex);
+  }, [completedCurrentPage]);
+
+  const handlePreviousCompletedPage = () => {
+    setCompletedCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextCompletedPage = () => {
+    setCompletedCurrentPage((prev) => Math.min(prev + 1, totalCompletedPages));
+  };
+
   const handleExportCSV = () => {
     if (filteredActions.length === 0) {
       toast({
@@ -201,11 +214,6 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
       direction = 'descending';
     }
     setSortConfig({ key, direction });
-  };
-
-  const getSortIndicator = (key: SortableKeys) => {
-    if (sortConfig.key !== key) return null;
-    return sortConfig.direction === 'ascending' ? '▲' : '▼';
   };
 
   const renderSortableHeader = (key: SortableKeys, label: string) => (
@@ -370,7 +378,8 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
         <TabsContent value="completed">
            <Card className="shadow-lg mt-4">
               <CardContent className="pt-6">
-                {mockCompletedActions.length > 0 ? (
+                {paginatedCompletedActions.length > 0 ? (
+                    <>
                     <div className="overflow-x-auto">
                         <Table>
                             <TableHeader>
@@ -382,14 +391,14 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                                     <TableHead className="whitespace-nowrap">{dictionary.tableHeaderDetails}</TableHead>
                                     <TableHead className="whitespace-nowrap">{dictionary.tableHeaderBefore}</TableHead>
                                     <TableHead className="whitespace-nowrap">{dictionary.tableHeaderAfter}</TableHead>
-                                    <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
                                     <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessor}</TableHead>
                                     <TableHead className="whitespace-nowrap">{holdingDictionary.tableHeaderProcessedDate}</TableHead>
+                                    <TableHead className="whitespace-nowrap">{dictionary.tableHeaderEffectiveDate}</TableHead>
                                     <TableHead className="text-center whitespace-nowrap">{holdingDictionary.tableHeaderHoldingDetails}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {mockCompletedActions.map((action) => (
+                                {paginatedCompletedActions.map((action) => (
                                     <TableRow key={action.id}>
                                         <TableCell className="whitespace-nowrap">{action.announcementDate}</TableCell>
                                         <TableCell className="whitespace-nowrap">
@@ -403,9 +412,9 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                                         <TableCell>{action.actionDetails}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.before ?? '-'}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.after ?? '-'}</TableCell>
-                                        <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.processor}</TableCell>
                                         <TableCell className="whitespace-nowrap">{action.processedDate}</TableCell>
+                                        <TableCell className="whitespace-nowrap">{action.effectiveDate}</TableCell>
                                         <TableCell className="text-center">
                                              <Button asChild variant="default" size="sm">
                                                 <Link href={`${pathname}/${action.id}`}>
@@ -418,6 +427,30 @@ export default function HoldingProcessor({ dictionary, actionTypeDictionary, hol
                             </TableBody>
                         </Table>
                     </div>
+                    {totalCompletedPages > 1 && (
+                        <div className="flex items-center justify-between mt-6 pt-4 border-t">
+                            <Button
+                                onClick={handlePreviousCompletedPage}
+                                disabled={completedCurrentPage === 1}
+                                variant="outline"
+                            >
+                                {dictionary.previousPage}
+                            </Button>
+                            <span className="text-sm text-muted-foreground">
+                                {dictionary.pageIndicator
+                                .replace('{currentPage}', completedCurrentPage.toString())
+                                .replace('{totalPages}', totalCompletedPages.toString())}
+                            </span>
+                            <Button
+                                onClick={handleNextCompletedPage}
+                                disabled={completedCurrentPage === totalCompletedPages}
+                                variant="outline"
+                            >
+                                {dictionary.nextPage}
+                            </Button>
+                        </div>
+                    )}
+                    </>
                 ) : (
                     <div className="text-center py-10 text-muted-foreground">
                         <CheckCircle2 className="mx-auto h-12 w-12 mb-4" />
