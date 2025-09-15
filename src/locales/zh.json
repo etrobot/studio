@@ -29,6 +29,8 @@
     "tableHeaderActionType": "行动类型",
     "tableHeaderDetails": "详情",
     "tableHeaderEffectiveDate": "生效日期",
+    "tableHeaderBefore": "之前",
+    "tableHeaderAfter": "之后",
     "toastNoDataTitle": "无数据",
     "toastNoDataDescription": "没有可导出的数据。",
     "toastExportSuccessTitle": "导出成功",

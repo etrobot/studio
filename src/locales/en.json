@@ -29,6 +29,8 @@
     "tableHeaderActionType": "Action Type",
     "tableHeaderDetails": "Details",
     "tableHeaderEffectiveDate": "Effective Date",
+    "tableHeaderBefore": "Before",
+    "tableHeaderAfter": "After",
     "toastNoDataTitle": "No Data",
     "toastNoDataDescription": "There is no data to export.",
     "toastExportSuccessTitle": "Export Successful",

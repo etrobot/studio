@@ -28,6 +28,8 @@ export const mockStockActions: StockAction[] = [
     actionType: 'Stock Split/Consolidation',
     actionDetails: '20-for-1 stock split.',
     effectiveDate: '2024-06-10',
+    before: '1 share',
+    after: '20 shares',
   },
   {
     id: '4',
@@ -46,6 +48,8 @@ export const mockStockActions: StockAction[] = [
     actionType: 'Ticker Change',
     actionDetails: 'Company changed ticker from FB to META.',
     effectiveDate: '2024-05-01',
+    before: 'FB',
+    after: 'META',
   },
   {
     id: '6',
@@ -55,6 +59,8 @@ export const mockStockActions: StockAction[] = [
     actionType: 'Stock Split/Consolidation',
     actionDetails: '3-for-1 stock split.',
     effectiveDate: '2024-03-20',
+    before: '1 share',
+    after: '3 shares',
   },
   {
     id: '7',
@@ -71,8 +77,10 @@ export const mockStockActions: StockAction[] = [
     ticker: 'OLDCO',
     companyName: 'Old Company Inc.',
     actionType: 'Board Transfer',
-    actionDetails: 'Acquired by NEWCO Inc.',
+    actionDetails: 'Transferred from NASDAQ to Pink Sheets.',
     effectiveDate: '2024-03-30',
+    before: 'NASDAQ',
+    after: 'PINK',
   },
   {
     id: '9',
@@ -91,6 +99,8 @@ export const mockStockActions: StockAction[] = [
     actionType: 'Stock Split/Consolidation',
     actionDetails: '1-for-20 reverse stock split.',
     effectiveDate: '2024-01-20',
+    before: '20 shares',
+    after: '1 share',
   },
   {
     id: '11',
@@ -100,6 +110,17 @@ export const mockStockActions: StockAction[] = [
     actionType: 'Bonus Issue',
     actionDetails: '1-for-10 bonus share issue.',
     effectiveDate: '2024-08-05',
+  },
+  {
+    id: '12',
+    announcementDate: '2024-07-25',
+    ticker: 'SUSP',
+    companyName: 'Suspended Corp',
+    actionType: 'Trading Status Change',
+    actionDetails: 'Trading suspended due to regulatory inquiry.',
+    effectiveDate: '2024-07-26',
+    before: 'Normal',
+    after: 'Suspended',
   }
 ];
 

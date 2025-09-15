@@ -15,4 +15,6 @@ export interface StockAction {
   actionType: StockActionType;
   actionDetails: string;
   effectiveDate: string; // YYYY-MM-DD
+  before?: string;
+  after?: string;
 }
